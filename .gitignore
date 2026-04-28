@@ -1,0 +1,26 @@
+# API Key
+.env
+
+# Virtual Environment
+venv/
+.venv/
+env/
+.idea/
+
+# Data Files
+Data/*/
+!Data/04_Final/
+
+# My Backup Files
+archive/
+future_use/
+[0-9][0-9]_*.py
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Cache
+.DS_Store
+Thumbs.db

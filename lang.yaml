@@ -1,0 +1,355 @@
+tc:
+  page_title: "香港泰菜食字店名研究"
+  select_lang: "🌐 Switch Language"
+  title: "🇹🇭 泰好味＝泰高分？香港泰菜食字店名口碑與人氣之數據分析"
+  intro: |
+    「**食字**」（諧音雙關）是香港常見的文化現象，其中**泰國餐廳**的命名方式更是大眾津津樂道的話題，有網媒更曾對此進行統計及專題報導。這種命名風格雖然深入民心，但是否能實質轉化為**商業成果**？
+
+    本研究旨在探討「**食字 (Pun-based)**」與「**標準 (Standard)**」命名對餐廳商業表現之影響。在數據採集上，本研究整合了由**食物環境衞生署 (FEHD)** 提供、並透過**空間數據共享平台 (CSDI)** 獲取的**食肆牌照數據**，以及從 **Google Places API** 採集的**評價資訊**（包括評分、評論數量及價格等級）。
+  overview_heading: "🍽️ 納入研究之餐廳概覽"
+  overview_insight: |
+    * **樣本組成：** 在 {total_restaurants_count} 間納入研究的餐廳中，共有 **{pun_count} 間**以食字（諧音雙關）命名，佔整體樣本 **{pun_percent:.1f}%**，即平均每 **{denominator:.0f} 間**餐廳中就有 1 間以食字命名。
+      * 常見食字範例：泰簡單、泰好味、泰式食
+    * **地區分佈：** 數據結果與大眾認知吻合，**九龍城**擁有的泰國餐廳數量居全港之冠，惟其食字店名的比例相對較低。
+    * **命名趨勢：** 食字比例超過半數的地區包括元朗、荃灣、葵青、北區、屯門、沙田、深水埗、中西區、黃大仙及大埔，反映 **食字店名風格較多集中於新界地區**。
+  overview_1: "📊 基本統計"
+  overview_2: "🗺️ 餐廳地圖"
+  overview_1_1: "🔎 店名風格一覽"
+  overview_1_2: "📍 店名風格（按地區）"
+  show_all: "📋 顯示{total_restaurants_count}間泰國餐廳資料"
+  data_methodology: "🛠️ 數據處理流程及說明"
+  overview_remark: |
+    ### ⚙️ 數據獲取與清洗
+
+    * **多源整合**：本研究以 **CSDI 空間數據**為基礎，透過 **Google Places API (New)** 獲取餐廳評分、評論數目及價格等級等關鍵指標。
+    * **自動化過濾**：利用 Google API 提供的餐廳種類標籤 (`primary_type` 與 `types`) 進行分類，排除名稱包含「泰」字但非泰國餐廳的數據（例如：*鼎泰豐*、*泰昌餅家* 等）。
+    * **人工校對**：針對機器難以識別的邊緣案例及已永久結業之餐廳，進行人工核對、重新命名或移除，確保分析樣本的準確性。
+    * **店名分類**：採用自定義邏輯將店名歸納為三大類別：**「標準 (Standard)」**、**「食字 (Pun)」** 及 **「英文 (English)」**。
+
+    ### ⚠️ 數據局限性
+
+    * **樣本偏差**：由於初始數據擷取以「泰 / Thai」作為關鍵詞篩選，樣本可能忽略了店名中不含此關鍵字、但實際上經營泰國菜的餐廳。因此，本報告中的 **食字比例可能略高於全港真實市場水平**。
+    * **API 搜索限制**：受限於搜索機制，若 Google 與 CSDI 的店名有較大差異，或在 Google 出現同名餐廳，可能導致對接誤差，**現已手動剔除歧義樣本，唯此舉令樣本量減少，並存在判讀主觀性**。
+    * **時效性**：本數據反映截至 **2026年4月** 之市場狀況，尚未反映後續新開業或結業之變動。
+  google_heading: "📣 店名風格對口碑與人氣之影響"
+  google_insight: |
+    * **箱形圖 (Boxplot) 說明**：
+      * **核心區間**：盒形的下沿、中線與上沿分別代表 **第一四分位數 (Lower Quartile/Q1)**、**中位數 (Median/Q2)** 及 **第三四分位數 (Upper Quartile/Q3)**，反映了 50% 店舖的集中分佈範圍。
+      * **分佈極限**：延伸出的**觸鬚 (Whiskers)** 展示了數據的正常邊界。**超越上邊界的點 (Outliers)** 代表了具備「爆紅」潛力的高人氣店舖。
+    * **初步分析**：
+      * **評分表現**：各類店名風格的**評分中位數為 3.9-4.0**。這顯示儘管食字店名在文化層面深入民心，但在實際口碑表現上與標準店名並無顯著差異。
+      * **人氣落差**：食字店名的**平均評論數量顯著低於標準及英文店名**。若以評論數作為人氣指標，統計結果**打破了大眾普遍認為「『食字』店名具親和力、更能吸客」的直覺**。
+  google_1: "⭐ 評分分佈"
+  google_2: "💬 評論數量分佈"
+  google_remark: |
+    ### ⚙️ 數據清洗
+    * **異常值處理**：在整合最終分析數據集（$n={total_restaurants_count}$）前，**已剔除2個評分為 0 的無效樣本**。此類樣本通常代表該餐廳尚未累積評分，移除後可確保整體分佈更能反映市場真實口碑。
+  price_level_heading: "💰 價格等級是否構成干擾？"
+  price_level_insight: |
+    * **熱力圖 (Heatmap) 導讀**：
+      * **相關性 (Correlation)**：數值介於 -1（完全負相關） 與 1（完全正相關） 之間。
+      * **評論與食字**：**評論數量**與**是否食字**呈負相關（$R=-0.21$），即餐廳名字**越傾向食字、評論越少**。
+      * **評論與價格**：**評論數量**與**價格等級**呈更強烈正相關（$R=0.55$），即**價格等級會干擾評論數量**。
+    * **價格等級分析**：
+      * **價格兩極化**：{total_restaurants_count} 間餐廳高度集中於 **平價餐廳 (Level 0)** 及 **中高價餐廳 (Level 3)** 兩端。後續分析將採取「分層策略」，**針對此兩組價格的餐廳進行獨立驗證**。
+      * **命名慣例**：食字命名的 **中高價餐廳 (Level 3)** 的佔比明顯低於標準命名，推測平價餐廳更傾向利用食字命名的親和力吸引大眾，而高價位餐廳則較常採用標準或英文命名以建立品牌嚴謹感。
+  price_level_1: "熱力圖（各因素相關性）"
+  price_level_2: "不同價格等級的餐廳數量"
+  price_level_2_1: "🔠 按店名風格"
+  price_level_2_2: "📍 按地區"
+  price_level_breakdown_heading: "🪙 價格等級分層驗證"
+  price_level_breakdown_insight: |
+    * **食字表現落差持續**：儘管前述分析指出平價餐廳傾向利用食字建立親和力，但數據顯示，這種命名策略**並未轉化為實際的競爭優勢**。無論在何種價格等級，食字店名的**評分與評論數量仍普遍低於標準命名**，顯示幽默感未必能保證市場人氣。
+    * **價格與評論數量關聯持續**：對應熱力圖 (Heatmap) 結果，評論數量與價格等級呈現強烈正相關。此關聯同步反映於中高價餐廳 (Level 3) 評論數量的箱形圖 (Box Plot)：**Level 3 的評論數量高於 Level 0 及整體標準**，而Level 3內，**標準命名的評論數量亦領先**。
+    * **後續研究方向**：為排除價格等級造成的干擾，後續分析將繼續拆開平價餐廳 (Level 0) 及中高價餐廳 (Level 3)，並深入探討**不同地區的餐廳**的商業表現。
+  price_breakdown_1: "⭐ 評分分佈（按價格等級）"
+  price_breakdown_2: "💬 評論數量分佈（按價格等級）"
+  price_breakdown_1_1: "整體評分"
+  price_breakdown_1_2: "平價餐廳 (Level 0) 評分"
+  price_breakdown_1_3: "中高價餐廳 (Level 3) 評分"
+  price_breakdown_2_1: "整體評論數量"
+  price_breakdown_2_2: "平價餐廳 (Level 0) 評論數量"
+  price_breakdown_2_3: "中高價餐廳 (Level 3) 評論數量"
+  price_remark: |
+    ### 💰 價格等級定義
+    
+    本研究採用 Google API 的原始價格等級 0 至 4 為基礎，並根據香港市場的消費特性進行以下歸類，以確保分析之商業意義：
+    * **Level 0**：定義為**平價餐廳**（原始 API 標籤為 *Free/Unclassified*）。在香港泰菜樣本中，此類別主要涵蓋未設定高昂門檻的大眾化食肆、外賣店或小型餐廳，故在本研究中統稱為「平價餐廳」。
+    * **Level 3**：定義為**中高價餐廳**（原始 API 標籤為 *Expensive*），反映了具備一定服務規模與裝潢水平的餐廳。
+    * **Level 1,2,4**：因樣本分佈相對分散或極端，僅作為背景數據。
+  price_corr_heading: "🧩 數據解密：從平價到高端市場的命名生存學"
+  price_corr_insight: |
+    * **指標選擇與研究方法**
+      * **價格等級分層**：為排除價格定位的干擾，分析沿用**平價餐廳 (Level 0)** 及 **中高價餐廳 (Level 3)** 進行獨立驗證。
+      * **聚焦評論數量**：上述熱力圖顯示食字與**評論數量**相關性較強 ($r = -0.21$)，與**評分**則幾乎無關 ($r = -0.04$)。故分析聚焦於評論數，以探討店名對大眾的「吸引力」與「傳播力」。
+      * **分析邏輯**：以各區的「食字店名比例」作為核心指標，觀察食字飽和度如何影響該區餐廳的平均人氣（評論數量）。
+      * **模型選擇**：選用**RLM（穩健迴歸）**模型，以確保趨勢線不受極端值 (Outliers) 扭曲。
+
+    * **關鍵發現：創意溢價與平庸陷阱**
+      * **Level 0 平價餐廳**：食字店名比例與評論數量呈**負相關**，趨勢線顯示同一區的「食字餐廳」每增加 10% ，它們的**平均評論數量會減少 8.7 條**。反映基層市場中，食字店名可能被聯想為平庸、品牌深度不足，反成為**負面標籤**；或因**同質化嚴重**（如大量「泰XX」），令食客難以分辨，導致食字店名的餐廳人氣隨飽和度下降。
+      * **Level 3 中高價餐廳**：趨勢完全反轉，呈**顯著正相關**，趨勢線顯示同一區的「食字餐廳」每增加 10% ，它們的**平均評論數量會增加 29 條**。反映高端消費者更被創意與玩味吸引光顧，食字命名被視為品牌差異化的利器，展現出強大的吸客能力。
+      * **極端值辨識**：Level 0 的**旺角區**與 Level 3 的**油尖區**實際評論數遠超模型預測。這反映市中心旺區的「地理優勢」自帶流量，其影響力蓋過命名策略，亦驗證了 RLM 模型排除干擾、捕捉核心趨勢的重要性。
+  price_corr_1: "📉 平價餐廳 (Level 0)：食字命名的人氣稀釋效應"
+  price_corr_2: "📈 中高價餐廳 (Level 3)：命名創意帶來的品牌溢價"
+  show_price_stratification: "📋 顯示各區泰國餐廳價格等級分層"
+  price_strat_1: "📉 價格等級：Level 0"
+  price_strat_2: "📈 價格等級：Level 3"
+  price_corr_remark: |
+    ### ⚙️ 數據處理
+
+    * **Level 0 (平價)**：全港原本劃分為 19 區（部分政府數據仍未合併油尖區及旺角區為油尖旺區），但西貢、離島和南區並無符合食字店名定義的平價泰菜餐廳，故最終參與迴歸分析的有效樣本縮減至**16區**。
+    * **Level 3 (中高價)**：由於採用食字店名的中高價泰國餐廳樣本量較少，符合統計門檻僅餘**6區**，其趨勢線雖具備統計顯著性（$P < 0.05$），但在泛化到全港市場時需保持審慎，不排除研究結果受個別極端行政區數據影響。
+
+    ### 📊 統計指標釋義
+
+    * **Z 統計量 (Z-statistic)**：
+        * **信號強度**：衡量指標的影響力。數值的絕對值越大，代表該命名風格對人氣的影響越顯著，其結果越不可能由隨機偶然所產生。
+        * **方向指標**：正負號反映了關係的方向。正數 (+) 代表正向促進人氣；負數 (-) 則代表該風格在該市場中可能產生人氣阻礙。
+    * **P 值 (P-value)**：
+        * 衡量「純屬巧合」的概率。通常以 **0.05** 為門檻：
+            * $P < 0.05$：代表店名風格對人氣的影響在統計上是**顯著**的。
+            * $P > 0.05$：代表目前的趨勢有機會只是**隨機波動**。
+
+    ### 🎯 殘差分析 (Residual Analysis)
+
+    本研究利用殘差分析驗證 **RLM (穩健迴歸) 模型** 的必要性與準確性：
+
+    * **識別極端值的干擾**：透過計算各區實際值與預測值的差距（殘差），發現**旺角**與**油尖**具備極高的正殘差。在傳統迴歸模型中，這些極端值會產生巨大的槓桿作用，強行拉歪趨勢線，導致整體預測失真。
+    * **證明 RLM 的準確性**：殘差分佈顯示 RLM 成功降低了離群點的權重，將重心放在其餘大部分行政區的真實趨勢上。這證明模型能精準捕捉店名風格與人氣的底層規律，而不被個別旺區的地理紅利所誤導。
+    * **異常值的商業啟發**：殘差極高並不代表模型錯誤，反而成功抽離出模型無法解釋的外部變量。這證實了在**核心商圈**，地利優勢會蓋過品牌風格；但在**非核心區域**，食字命名的「人氣落差」趨勢則更具參考價值。
+  conclusion: |
+    ## 💡 研究結論：店名真的決定人氣嗎？
+
+    * **平價餐廳**：數據打破了「店名越有趣、生意越好」的迷思。無論是看整體分佈還是剔除極端值後的趨勢，**食字店名的評論數都顯著落後於標準店名**。這顯示在預算有限的市場，消費者可能更偏好直觀、專業的品牌呈現，過於花巧的名稱反而可能成為阻礙。
+    * **中高價餐廳**：數據出現有趣的反轉，雖然食字店名在全港整體而言無明顯優勢，但在食字風氣盛行的區域，這類店名的表現反而更好。這說明了**消費聚落效應**的存在：當一個地區形成了特定的命名文化，選擇食字店名更能產生品牌聯想，借力打力吸收地區流量。
+    * **地理紅利**：旺角與油尖區的餐廳實際評論數量遠超模型預期。這說明**核心商圈帶來的地理紅利和人流基礎，其影響力遠高於店名風格的設計**。
+  reflection: |
+    ## 🔄 研究反思
+
+    ### ⚠️ 現有研究局限
+    * **數據篩選邏輯的偏誤**：
+        目前的數據抓取邏輯主要依賴店名中是否包含「泰」或「Thai」等關鍵字進行初步篩選。這會導致部分實際經營泰國菜、但店名中不含相關關鍵字的餐廳被排除在外。未來需調整篩選方式，例如改以 Google 提供的 `primary_type` 標籤為主要分類依據，以獲取更全面的樣本。
+    * **樣本量與整合流失**：
+        受限於數據清洗與地址解析後的有效樣本數（目前為 **{total_restaurants_count}間**），部分區域的統計顯著性仍有待提高。數據流失主要源於 CSDI 空間數據與 Google API 之間的匹配誤差。
+    * **分店與連鎖效應的干擾**：
+        部分餐廳 (如：*泰潮*）擁有品牌歷史與連鎖資源的餐廳，其商業表現或受品牌紅利影響。目前分析難以將資源優勢與單純的「命名風格」完全隔離，導致模型在處理連鎖店數據時可能存在偏差。
+    
+    ### 🛣️ 未來研究方向
+    * **優化數據整合流程**：
+        進一步優化 **CSDI 空間數據**與 **Google Places API** 的自動化對接邏輯，減少因地址匹配失敗而產生的數據流失，從而擴大有效樣本數，提高模型的預測精準度。
+    * **深入探討區域消費特性**：
+        進一步挖掘不同區域的特色，例如研究傳統泰國菜聚落的**九龍城區**，為何未能享受**旺角及油尖區**的地理紅利；或引入各區人口年齡結構與人均收入數據，是否對「食字命名」有更高的接受度與轉化率。
+    * **導入自動化命名分類**：
+        目前店名分類主要依賴人工標籤，難以處理大規模數據。未來計劃引入**自然語言處理**技術，透過語義理解自動識別諧音雙關，甚至細分出「創意食字」、「文化符號」或「人名店名」等多重類別，實現更具文化語境的自動化分析。
+  labels:
+    actual_value: "實際數值"
+    address: "地址"
+    address_tc: "地址"
+    all_restaurants_trendline: "所有店名趨勢線（對照組）"
+    avg_all_reviews: "平均評論數量（所有店名）"
+    avg_pun_reviews: "平均評論數量（食字店名）"
+    benchmark: "對照組"
+    colon: "："
+    count: "餐廳數量"
+    district: "地區"
+    district_name_tc: "地區"
+    equation: "迴歸方程"
+    insignificant: "（不顯著）"
+    is_pun: "是否食字<br>(1 = 是, 0 = 否)"
+    naming_style_tc: "店名風格"
+    p_value: "P 值 (P-Value)"
+    predicted_value: "預測數值"
+    predicted_value_xaxis: "模型預測評論數量"
+    price_level: "價格等級"
+    price_level_0: "價格等級：Level 0"
+    price_level_3: "價格等級：Level 3"
+    pun_restaurants_count: "食字餐廳數量"
+    pun_restaurants_district: "食字店名餐廳（按地區）"
+    pun_restaurants_trendline: "食字店名趨勢線"
+    pun_ratio: "該區食字店名普及度 (%)"
+    rating: "評分"
+    regression_results: "迴歸分析結果"
+    residuals: "殘差值"
+    residuals_yaxis: "殘差值（實際 vs. 預測）"
+    restaurant_name_en: "餐廳英文名"
+    restaurant_name_tc: "餐廳中文名"
+    review_count: "評論數量"
+    significant: "（顯著）"
+    total_restaurants_count: "所有餐廳數量"
+    weight: "權重"
+    z_stat: "Z 統計量（Z-statistic）"
+
+en:
+  page_title: "HK Thai Pun Branding Research"
+  select_lang: " 🌐 切換語言"
+  title: "🇹🇭 Pun Intended? A Data Analysis of Naming Styles on Thai Restaurant Popularity in Hong Kong"
+  intro: |
+      "**Puns**" (wordplay) are prevalent in Hong Kong's cultural landscape. This is especially evident in Thai restaurants, as the Cantonese word for "**Thai**" (**泰**, *taai3*) is homophonous with "**too/extremely**" (**太**, *taai3*). While these interesting names are frequently featured on digital media platforms, does this cultural appeal translate into actual **business performance**?
+        
+      This study compares "**Pun**" vs. "**Standard**" naming strategies by integrating official license data from the **FEHD** (via **CSDI**) with metrics from the **Google Places API**, including **Rating**, **Review Count** and **Price Level**.
+  overview_heading: "🍽 Overview of Analyzed Restaurants"
+  overview_insight: |
+    * **Sample Composition:** Among the {total_restaurants_count} restaurants included in this study, **{pun_count}** are named using "Puns" (wordplay), accounting for **{pun_percent:.1f}%** of the total sample. This means, on average, 1 out of every **{denominator:.0f}** Thai restaurants adopts a pun-based naming strategy.
+      * Common Examples: "Thai Simple" (泰簡單, *taai3 gaan2 daan1*), "Thai Delicious" (泰好味 *taai3 hou2 mei6*), "Thai Style Eat" (泰式食 *taai3 sik1 sik6*)
+    * **Geographical Distribution:** Consistent with public perception, **Kowloon City** has the highest concentration of Thai restaurants in Hong Kong, but its proportion of pun-based naming is relatively low.
+    * **Naming Trends:** Puns are used in more than half of the Thai restaurants in Yuen Long, Tsuen Wan, Kwai Tsing, North District, Tuen Mun, Sha Tin, Sham Shui Po, Central & Western, Wong Tai Sin, and Tai Po. This suggests that **pun-based naming style is most prevalent in the New Territories**.
+  overview_1: "📊 Statistics"
+  overview_2: "🗺️ Restaurant Map"
+  overview_1_1: "🔎 Naming Style Overview"
+  overview_1_2: "📍 Naming Style (By District)"
+  show_all: "📋 Show {total_restaurants_count} Thai Restaurant Records"
+  data_methodology: "🛠️ Data Processing and Methodology"
+  overview_remark: |
+    ### ⚙️ Data Collection & Cleaning
+
+    * **Multi-source Integration**: This study is built on **CSDI spatial data**, integrating key metrics such as ratings, review counts, and price levels retrieved via the **Google Places API (New)**.
+    * **Automated Filtering**: Restaurants were categorized using Google API's type tags (`primary_type` and `types`). Data entries containing the keyword "Thai" but not serving Thai cuisine (e.g., Din Tai Fung (鼎泰豐), Tai Cheong Bakery (泰昌餅家) were systematically excluded.
+    * **Manual Validation**: Edge cases difficult for automated detection and permanently closed restaurants were manually verified, renamed, or removed to ensure the accuracy of the analysis.
+    * **Naming Classification**: A custom logic was applied to categorize restaurant names into three groups: **"Standard"**, **"Pun"**, and **"English"**.
+
+    ### ⚠️ Data Limitations
+
+    * **Sample Bias**: As the initial data extraction used "Thai / 泰" as a keyword filter, restaurants that serve Thai cuisine but do not include these keywords in their names may be omitted. Consequently, the **"Pun" ratio in this report may be slightly higher than the actual market average**.
+    * **API Search Constraints**: Due to search mechanism limitations, significant discrepancies between Google and CSDI names, or duplicate restaurant names, may cause matching errors. **Ambiguous samples have been manually excluded; however, this has reduced the total sample size and introduced a degree of subjective judgment**.
+    * **Temporal Relevance**: This dataset reflects market conditions as of **April 2026** and does not account for subsequent openings or closures.
+  google_heading: "📣 Impact of Naming Styles on Reputation and Popularity"
+  google_insight: |
+    * **Boxplot Explained**:
+      * **Core Range**: The lower edge, center line, and upper edge of the box represent the **Lower Quartile (Q1)**, **Median (Q2)**, and **Upper Quartile (Q3)**, respectively. This range captures the central 50% of the restaurants in the sample.
+      * **Data Ranges & Outliers**: The extended **whiskers** illustrate the normal boundaries of the data. **Points beyond the upper fence (Outliers)** represent high-popularity restaurants with significant growth potential.
+    * **Preliminary Analysis**:
+      * **Rating Performance**: The **median rating** across all naming styles falls within the **3.9–4.0 range**. This indicates that while pun-based names are deeply rooted in local culture, their actual reputation shows no significant deviation from standard naming conventions.
+      * **The Popularity Shortfall**: Data reveals that the **average review count for pun-based names is significantly lower** than that of standard and English names. Taking review volume as a proxy for popularity, these statistical results **challenge the common perception that humorous names are more approachable or effective at attracting customers**.
+  google_1: "⭐ Rating Distribution"
+  google_2: "💬 Review Count Distribution"
+  google_remark: |
+    ### ⚙️ Data Cleaning
+    * **Outlier Handling**: Prior to finalizing the research dataset ($n={total_restaurants_count}$), **2 invalid samples with a rating of 0 were excluded**. Such samples typically represent restaurants that have not yet accumulated sufficient ratings; removing them ensures that the overall distribution more accurately reflects genuine **market sentiment** and reputation.
+  price_level_heading: "💰 Is Price Level a Confounding Factor?"
+  price_level_insight: |
+    * **Heatmap Guide:**
+      * **Correlation Validation**: Values range from -1 (perfect negative correlation) to 1 (perfect positive correlation).
+      * **Review and Pun**: Review count and pun-based names show a negative correlation ($R=-0.21$), meaning restaurants with **pun-based names tend to receive fewer comments**.
+      * **Review and Price**: Review count and price level show a stronger positive correlation ($R=0.55$), meaning **price level is a significant confounding factor of review count**.
+    * **Price Level Analysis:**
+      * **Price Polarization**: {total_restaurants_count} restaurants are highly concentrated at two extremes: **Budget Restaurants (Level 0)** and **Mid-to-High End Restaurants (Level 3)**. Subsequent analysis will adopt a "Stratified Strategy," **independently verifying these two price groups**.
+      * **Naming Conventions**: The proportion of pun-based names in **Mid-to-High End Restaurants (Level 3)** is notably lower than that of standard names. This suggests that budget restaurants lean toward the approachability of puns to connect with the general public, whereas higher-end restaurants often opt for standard or English names to convey a sense of brand authority and formality.
+  price_level_1: "Heatmap (Correlation of All Factors)"
+  price_level_2: "Restaurant Count of Different Price Levels"
+  price_level_2_1: "🔠 By Naming Style"
+  price_level_2_2: "📍 By District"
+  price_level_breakdown_heading: "🪙 Stratified Verification of Price Levels"
+  price_level_breakdown_insight: |
+    * **Persistent Performance Shortfall in Puns**: While previous analysis suggests that budget restaurants lean toward puns to build approachability, data shows that this naming strategy **does not translate into a tangible competitive advantage**. Across all price levels, **ratings and review counts for restaurants with pun-based names remain consistently lower than those with standard names**, proving that humor does not guarantee market popularity.
+    * **Sustained Correlation between Price and Review Count**: Consistent with the heatmap findings, review counts show a strong positive correlation with price levels. This is further reflected in the Mid-to-High End (Level 3) Review Count Box Plot: **Level 3 restaurants get higher review counts than Level 0 and the overall benchmark**. Within Level 3, **restaurants with standard names continue to lead in review counts**.
+    * **Subsequent Research Direction**: To eliminate price-related interference, subsequent analysis will continue to separate Budget (Level 0) and Mid-to-High End (Level 3) restaurants, and to explore the **commercial performance across different districts**.
+  price_breakdown_1: "⭐ Rating Distribution (By Price Level)"
+  price_breakdown_2: "💬 Review Count Distribution (By Price Level)"
+  price_breakdown_1_1: "Overall Rating"
+  price_breakdown_1_2: "Budget Restaurants (Level 0) Rating"
+  price_breakdown_1_3: "Mid-to-High End Restaurants (Level 3) Rating"
+  price_breakdown_2_1: "Overall Review Count"
+  price_breakdown_2_2: "Budget Restaurants (Level 0) Review Count"
+  price_breakdown_2_3: "Mid-to-High End Restaurants (Level 3) Review Count"
+  price_remark: |
+    ### 💰 Price Level Definitions
+    
+    This study utilizes the raw Google API price tiers (0-4) as a foundation, categorized by the following **operational definitions** to align with the consumption characteristics of the Hong Kong market:
+    * **Level 0**: Defined as **Budget Restaurants** (Original API label: *Free/Unclassified*). In this HK Thai cuisine sample, this category primarily covers mass-market eateries, takeaways, and small neighborhood bistros.
+    * **Level 3**: Defined as **Mid-to-High End Restaurants** (Original API label: *Expensive*), reflecting restaurants with a certain scale of service and premium interior standards.
+    * **Levels 1, 2, 4**: Due to scattered or extreme sample distributions, these tiers serve as supplementary background data for the model.
+  price_corr_heading: "🧩 Data Decoded: The Survival Logic of Naming—From Budget to High-End Markets"
+  price_corr_insight: |
+    * **Metrics & Methodology**
+      * **Price Stratification**: To eliminate price positioning as a confounding variable, the analysis performs independent validations on **Budget (Level 0)** and **Mid-to-High End (Level 3)** segments.
+      * **Focus on Review Count**: Heatmap analysis indicates that Pun-based naming has a stronger correlation with **review count** ($r = -0.21$) than with **rating** ($r = -0.04$). Consequently, this study focuses on review count to gauge a brand's attraction and virality.
+      * **Analytical Logic**: Using the "Pun-based Naming Ratio" per district as the core metric, the study observes how pun saturation impacts the average popularity (review count) of restaurants in that area.
+      * **Model Selection**: **RLM (Robust Linear Model)** was utilized to ensure that trend lines remain undistorted by statistical outliers.
+
+    * **Key Findings: Creative Premium vs. Mediocrity Trap**
+      * **Budget (Level 0)**: There is a **negative correlation** between the prevalence of pun-based names and review count. The trend line reveals that for every 10% increase in pun-based restaurants within a district, their **average review count drops by 8.7**. In the mass market, pun-based names may be perceived as "cliché" or lacking brand depth, effectively becoming a **negative label**. Furthermore, **severe homogenization** (e.g., a high density of repetitive pun-based names) makes it difficult for diners to distinguish between brands, causing popularity to decline as the market becomes saturated.
+      * **Mid-to-High End (Level 3)**: The trend reverses completely, showing a **significant positive correlation**. For every 10% increase in pun-based names, their **average review count rises by 29**. High-end consumers are more likely to be drawn to creativity and wit. In this segment, pun-based naming is a tool for brand differentiation, demonstrating a strong pull on high-end diners.
+      * **Outlier Identification**: Actual review counts in **Mong Kok (Level 0)** and **Yau Tsim (Level 3)** far exceed model predictions. This highlights how the geographic advantage of prime districts is so dominant that it overrides naming strategies. This also validates the importance of using the RLM model to filter out noise and capture core market trends.
+  price_corr_1: "📉 Price Level 0: How Pun-Saturation Dilutes Mass Market Appeal"
+  price_corr_2: "📈 Price Level 3: Leveraging Creative Wit for High-End Brand Attraction"
+  show_price_stratification: "📋 Show Price Level Stratification of Thai Restaurants by District"
+  price_strat_1: "📉 Price Level 0"
+  price_strat_2: "📈 Price Level 3"
+  price_corr_remark: |
+    ### ⚙️ Data Processing & Sample Filtering
+
+    * **Level 0 (Budget)**: Hong Kong was originally divided into 19 districts (some government datasets still treat Mong Kok and Yau Tsim as separate districts rather than a unified Yau Tsim Mong district). However, as Sai Kung, Islands, and Southern District lacked budget Thai restaurants meeting our "Pun-based" naming criteria, the final sample size for regression was narrowed to **16 districts**.
+    * **Level 3 (Mid-to-High End)**: Due to the scarcity of high-end Thai restaurants utilizing pun-based names, only **6 districts** met the statistical threshold. While the resulting trendline is statistically significant ($P < 0.05$), caution is advised when generalizing these findings to the broader market, as the results may be influenced by specific district-level outliers.
+
+    ### 📊 Statistical Indicator Glossary
+
+    * **Z-statistic**
+        * **Signal Strength**: Measures the impact of a variable. A larger absolute value indicates a stronger influence of the naming style on popularity, suggesting the result is unlikely to be a product of random chance.
+        * **Directional Indicator**: The sign reflects the nature of the relationship. A **positive (+) value** indicates an increase in popularity, while a **negative (-) value** suggests the naming style may hinder market appeal in that segment.
+    * **P-value**
+        * Measures the **probability of random occurence**. Using **0.05** as the standard threshold:
+            * **$P < 0.05$**: The impact of naming style on popularity is considered **statistically significant**.
+            * **$P > 0.05$**: The observed trend may simply be the result of **random noise**.
+
+    ### 🎯 Residual Analysis
+
+    This study utilizes residual analysis to validate the necessity and accuracy of the **RLM (Robust Linear Model)** approach:
+
+    * **Identifying Outlier Interference**: By calculating the "Residuals" (gap between actual and predicted values), we identified that **Mong Kok** and **Yau Tsim** exhibit extremely high positive residuals. In traditional OLS regression, these outliers would exert massive "leverage," forcing the trendline toward them and distorting the overall market prediction.
+    * **Proving RLM Accuracy**: The residual distribution demonstrates that RLM successfully downweighted these outliers, focusing on the true trends of the remaining districts. This proves the model's ability to capture the underlying relationship between naming style and popularity without being misled by the geographic traffic dividends of specific hotspots.
+    * **Business Insights from Deviations**: A high residual does not imply model failure; rather, it isolates external variables the model cannot explain. This confirms that in **prime commercial hubs**, location advantage outweighs branding style; however, in **non-core areas**, the "Popularity Shortfall" of pun-based naming remains a highly reliable strategic reference.
+  conclusion: |
+    ## 💡 Core Insights: Does a Name Truly Drive Popularity?
+
+    * **Budget Restaurants**: The data debunked the myth that "the wittier the name, the better the business". Both overall distribution in box plots and the RLM trendlines adjusted for outliers showed that **pun-based names significantly lagged behind standard names in review counts**. This suggests that in budget-sensitive markets, consumers prefer intuitive and professional branding; overly clever names may actually act as a barrier to entry.
+    * **Mid-to-High End Restaurants**: The data revealed a surprising reversal. While pun-based naming showed no clear advantage on a territory-wide scale, it performed significantly better in districts where "pun culture" is already prevalent. This highlights the **"Cluster Effect"**: when a district develops a specific naming subculture, choosing a pun-based name fosters stronger brand association, allowing a restaurant to leverage existing local momentum to attract traffic.
+    * **The Dominance of Location**: Restaurants in Mong Kok and Yau Tsim districts outperformed model predictions. This confirms a fundamental pillar of F&B: The Dominance of Location: High-traffic business hubs provide a **geographic advantage that far exceeds the influence of naming style**.
+  reflection: |
+    ## 🔄 Research Reflections
+
+    ### ⚠️ Current Limitations
+    * **Selection Bias in Data Retrieval**: The current data scraping logic primarily relies on keywords like "Thai" or "泰" in restaurant names. This inevitably excludes Thai restaurants that do not use these specific terms in their branding. Future iterations should utilize Google’s `primary_type` or `cuisine_category` tags as the primary filter to ensure a more comprehensive and representative sample.
+    * **Sample Size and Integration Attrition**: With a post-cleaning sample size of **{total_restaurants_count} restaurants**, the statistical significance within certain districts remains limited. This data attrition is largely due to matching errors between CSDI spatial data and the Google Places API (e.g., inconsistent address formatting).
+    * **Distortion from Chain and Brand Equity**: Established brands (e.g., *Thai Chiu*) benefit from significant brand equity and shared corporate resources that support their business performance. Currently, it is difficult to isolate these resource advantages from the naming style itself, which may introduce bias when the model processes data from multi-branch chains.
+
+    ### 🛣️ Future Roadmap
+    * **Optimizing Data Integration Pipeline**: Refining the automated matching logic between **CSDI spatial data** and **Google Places API** will be critical. By implementing fuzzy matching for addresses, we can reduce data loss, expand the effective sample size, and improve the predictive accuracy of the model.
+    * **Deep Dive into District Consumer Demographics**: Further exploration could uncover the unique characteristics of different districts, e.g. why traditional Thai food hubs like **Kowloon City** do not enjoy the same geographic advantage as **Mong Kok or Yau Tsim**. Incorporating demographic variables, such as age structure and median income, could reveal whether specific populations have a higher cultural receptivity to pun-based naming.
+    * **Implementation of Automated Taxonomy**: The current manual labeling is insufficient for large-scale datasets. Future phases will integrate **Natural Language Processing (NLP)** to automate the identification of paronomasia (puns). This will allow for a more **culturally-contextualized automated analysis** of names by categorizing them into "creative puns," "cultural symbols," or "proper nouns".
+  labels:
+    actual_value: "Actual Value"
+    address: "Address"
+    address_en: "Address"
+    all_restaurants_trendline: "All Restaurants Trendline (Benchmark)"
+    avg_all_reviews: "Average Review Count (All Restaurants)"
+    avg_pun_reviews: "Average Review Count (Pun-based)"
+    benchmark: "Benchmark"
+    colon: ": "
+    count: "Restaurant Count"
+    district: "District"
+    district_name_en: "District"
+    equation: "Equation"
+    insignificant: "(Insignificant)"
+    is_pun: "Is Pun<br>(1 = Yes, 0 = No)"
+    naming_style_en: "Naming Style"
+    p_value: "P-Value"
+    predicted_value: "Predicted Value"
+    predicted_value_xaxis: "Predicted Review Count by Model"
+    price_level: "Price Level"
+    price_level_0: "Price Level 0"
+    price_level_3: "Price Level 3"
+    pun_restaurants_count: "Pun Restaurants Count"
+    pun_restaurants_district: "Pun-based Restaurants (by District)"
+    pun_restaurants_trendline: "Pun-based Restaurants Trendline"
+    pun_ratio: "Pun-based Naming Prevalence (%)"
+    rating: "Rating"
+    regression_results: "Regression Results"
+    residuals: "Residuals"
+    residuals_yaxis: "Residuals (Actual vs. Predicted)"
+    restaurant_name_en: "Restaurant Name (Eng)"
+    restaurant_name_tc: "Restaurant Name (Chi)"
+    review_count: "Review Count"
+    significant: "(Significant)"
+    total_restaurants_count: "Total Restaurant Count"
+    weight: "Weight"
+    z_stat: "Z-statistic"

@@ -1,0 +1,7 @@
+streamlit==1.55.0
+st-theme==1.2.3
+pandas==2.3.3
+plotly==6.6.0
+numpy==2.4.3
+statsmodels==0.14.6
+PyYAML==6.0.3
