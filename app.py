@@ -179,24 +179,46 @@ st.markdown(t['overview_insight'].format(total_restaurants_count=total_restauran
 overview_1, overview_2 = st.tabs([t['overview_1'], t['overview_2']])
 
 with overview_1:
-    overview_1_1, overview_1_2 = st.columns([1, 3])
+    # overview_1_1, overview_1_2 = st.columns([1, 3])
 
-    with overview_1_1:
+    # with overview_1_1:
         st.subheader(t['overview_1_1'])
-        fig_naming_style_pie = px.pie(naming_style_df, names=cols['naming_style'], values='count',
-                                      color_discrete_sequence=MY_CHART_COLORS,
-                                      labels=t["labels"],
-                                      )
 
-        fig_naming_style_pie.update_traces(textposition='inside',
-                          texttemplate="%{label}<br>%{value} (%{percent:.1%})",
-                          textfont_size=16,
-                          hoverinfo='skip',
-                          hovertemplate=None)
+        naming_style_df['total'] = naming_style_df['count'].sum()
 
-        display_chart(fig_naming_style_pie)
+        naming_style_df['percent'] = naming_style_df['count'] / naming_style_df['total']
 
-    with overview_1_2:
+        fig_naming_style_bar = px.bar(
+            naming_style_df,
+            y='total',
+            x='count',
+            color=cols['naming_style'],
+            orientation='h',
+            color_discrete_sequence=MY_CHART_COLORS,
+            labels=t["labels"],
+            custom_data=[cols['naming_style'], 'percent']
+        )
+
+        total_count = naming_style_df['count'].sum()
+
+        fig_naming_style_bar.update_traces(
+            texttemplate="%{customdata[0]}<br>%{x}<br>(%{customdata[1]:.1%})",
+            textposition='inside',
+            textfont_size=16,
+            insidetextanchor='middle',
+            hoverinfo='skip',
+            hovertemplate=None
+        )
+
+        fig_naming_style_bar.update_layout(
+            xaxis=dict(showgrid=False, showticklabels=False, zeroline=False, title=""),
+            yaxis=dict(showgrid=False, showticklabels=False, title=""),
+            height=120,
+        )
+
+        display_chart(fig_naming_style_bar)
+
+    # with overview_1_2:
         st.subheader(t['overview_1_2'])
         thai_restaurants_district_group = thai_restaurants.groupby(cols['naming_style'])[[cols['naming_style'], cols['district_name']]] \
             .value_counts().reset_index().sort_values('count', ascending=False)
