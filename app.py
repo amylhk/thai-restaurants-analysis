@@ -80,6 +80,22 @@ except Exception as e:
     st.error(f"Unable to load data. Please check if the 'Data' folder contains the necessary files. Details:{e}")
     st.stop()
 
+def display_chart(fig, is_map=False, key=None):
+    fig.update_layout(
+        dragmode=False,
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    )
+
+    if is_map:
+        config = {'displayModeBar': True}
+    else:
+        config = {
+            'scrollZoom': False,
+            'displayModeBar': False
+        }
+
+    st.plotly_chart(fig, config=config, width='stretch', key=key)
+
 # =====================
 # Streamlit UI Starts
 # =====================
@@ -152,9 +168,9 @@ with overview_1:
                           hoverinfo='skip',
                           hovertemplate=None)
 
-        fig_naming_style_pie.update_layout(showlegend=False, margin={"r": 0, "t": 0, "l": 0, "b": 0})
+        fig_naming_style_pie.update_layout(showlegend=False)
 
-        st.plotly_chart(fig_naming_style_pie, width='stretch')
+        display_chart(fig_naming_style_pie)
 
     with overview_1_2:
         st.subheader(t['overview_1_2'])
@@ -174,7 +190,6 @@ with overview_1:
         fig_naming_style_bar.update_layout(
             xaxis_title=None,
             yaxis_title=None,
-            margin={"r": 0, "t": 0, "l": 0, "b": 0},
             legend=dict(
                 title={
                     'text': t['labels'][cols['naming_style']],
@@ -192,7 +207,7 @@ with overview_1:
             )
         )
 
-        st.plotly_chart(fig_naming_style_bar, width='stretch')
+        display_chart(fig_naming_style_bar)
 
 with overview_2:
     fig_naming_style_map = px.scatter_map(thai_restaurants, lat='latitude', lon='longitude',
@@ -206,10 +221,8 @@ with overview_2:
         marker=dict(size=10, opacity=.8)
     )
 
-    # by AI
     fig_naming_style_map.update_layout(
         mapbox_style="carto-positron",
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend=dict(
             title={
                 'text': t['labels'][cols['naming_style']],
@@ -217,7 +230,7 @@ with overview_2:
             },
 
             x=0.99,
-            y=0.98,
+            y=0.9,
             xanchor='right',
             yanchor='top',
             bgcolor="rgba(255, 255, 255, 0.7)",
@@ -227,7 +240,7 @@ with overview_2:
         )
     )
 
-    st.plotly_chart(fig_naming_style_map, width='stretch')
+    display_chart(fig_naming_style_map, is_map=True)
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
@@ -266,9 +279,7 @@ with google_1:
         showlegend = False
     )
 
-    fig_rating_box.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-
-    st.plotly_chart(fig_rating_box, width='stretch')
+    display_chart(fig_rating_box)
 
 with google_2:
     st.subheader(t["google_2"])
@@ -289,9 +300,7 @@ with google_2:
         showlegend=False
     )
 
-    fig_review_box.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-
-    st.plotly_chart(fig_review_box, width='stretch')
+    display_chart(fig_review_box)
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
@@ -326,7 +335,6 @@ with price_level_1:
 
     fig_heatmap.update_traces(hoverinfo='skip', hovertemplate=None)
     fig_heatmap.update_layout(
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         coloraxis_colorbar=dict(
             orientation='h',
             yanchor='top',
@@ -340,7 +348,7 @@ with price_level_1:
         )
     )
 
-    st.plotly_chart(fig_heatmap, width='stretch')
+    display_chart(fig_heatmap)
 
 with price_level_2:
     st.subheader(t["price_level_2"])
@@ -364,13 +372,11 @@ with price_level_2:
         )
 
         fig_price_level_bar.update_layout(
-            margin={"r":0,"t":0,"l":0,"b":0},
             legend=dict(
                 title={
                     'text': t["labels"]["price_level"],
                     'font': {'color': 'black'}
                 },
-
                 x=0.99,
                 y=0.98,
                 xanchor='right',
@@ -382,7 +388,7 @@ with price_level_2:
             )
         )
 
-        st.plotly_chart(fig_price_level_bar, width='stretch')
+        display_chart(fig_price_level_bar)
 
     with price_level_2_2:
         thai_restaurants_price_level_district = thai_restaurants.groupby(['price_level', cols['district_name']])[
@@ -405,13 +411,11 @@ with price_level_2:
         )
 
         fig_price_level_district_bar.update_layout(
-            margin={"r":0,"t":0,"l":0,"b":0},
             legend=dict(
                 title={
                     'text': t["labels"]["price_level"],
                     'font': {'color': 'black'}
                 },
-
                 x=0.99,
                 y=0.98,
                 xanchor='right',
@@ -423,7 +427,7 @@ with price_level_2:
             )
         )
 
-        st.plotly_chart(fig_price_level_district_bar, width='stretch')
+        display_chart(fig_price_level_district_bar)
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
@@ -451,7 +455,7 @@ with price_breakdown_1:
 
     with price_breakdown_1_1:
         st.subheader(t['price_breakdown_1_1'])
-        st.plotly_chart(fig_rating_box, width='stretch', key="rating_box_overall_repeat")
+        display_chart(fig_rating_box, key="rating_box_overall_repeat")
 
     with price_breakdown_1_2:
         st.subheader(t['price_breakdown_1_2'])
@@ -472,11 +476,9 @@ with price_breakdown_1:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_0_rating.update_layout(showlegend=False,
-                                     margin={"r":0,"t":0,"l":0,"b":0}
-                                     )
+        fig_price_0_rating.update_layout(showlegend=False)
 
-        st.plotly_chart(fig_price_0_rating, width='stretch')
+        display_chart(fig_price_0_rating)
 
     with price_breakdown_1_3:
         st.subheader(t['price_breakdown_1_3'])
@@ -497,18 +499,16 @@ with price_breakdown_1:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_3_rating.update_layout(showlegend=False,
-                                     margin={"r":0,"t":0,"l":0,"b":0}
-                                     )
+        fig_price_3_rating.update_layout(showlegend=False)
 
-        st.plotly_chart(fig_price_3_rating, width='stretch')
+        display_chart(fig_price_3_rating)
 
 with price_breakdown_2:
     price_breakdown_2_1, price_breakdown_2_2, price_breakdown_2_3 = st.columns(3)
 
     with price_breakdown_2_1:
         st.subheader(t["price_breakdown_2_1"])
-        st.plotly_chart(fig_review_box, width='stretch', key="review_box_overall_repeat")
+        display_chart(fig_review_box, key="review_box_overall_repeat")
 
     with price_breakdown_2_2:
         st.subheader(t["price_breakdown_2_2"])
@@ -528,11 +528,9 @@ with price_breakdown_2:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_0_review.update_layout(showlegend=False,
-                                         margin={"r":0,"t":0,"l":0,"b":0}
-                                         )
+        fig_price_0_review.update_layout(showlegend=False)
 
-        st.plotly_chart(fig_price_0_review, width='stretch')
+        display_chart(fig_price_0_review)
 
     with price_breakdown_2_3:
         st.subheader(t["price_breakdown_2_3"])
@@ -552,10 +550,9 @@ with price_breakdown_2:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_3_review.update_layout(showlegend=False,
-                                         margin={"r":0,"t":0,"l":0,"b":0}
-                                         )
-        st.plotly_chart(fig_price_3_review, width='stretch')
+        fig_price_3_review.update_layout(showlegend=False)
+
+        display_chart(fig_price_3_review)
 
 # ============================
 # ANALYSIS ACROSS DISTRICTS
@@ -651,7 +648,6 @@ with price_corr_1:
     )
 
     fig_thai_0_review.update_layout(
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend=dict(
             title=None,
             x=0.98,
@@ -667,7 +663,7 @@ with price_corr_1:
 
     fig_thai_0_review.data = fig_thai_0_review.data[1:] + fig_thai_0_review.data[:1]  # Reorder the scatter dots to the foremost layer
 
-    st.plotly_chart(fig_thai_0_review, width="stretch")
+    display_chart(fig_thai_0_review)
 
     st.html(f"""<div style='text-align: center;'>
     <b><u>{t['labels']['regression_results']}</u></b>
@@ -766,7 +762,6 @@ with price_corr_2:
     )
 
     fig_thai_3_review.update_layout(
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend=dict(
             title=None,
             x=0.98,
@@ -781,7 +776,7 @@ with price_corr_2:
     )
 
     fig_thai_3_review.data = fig_thai_3_review.data[1:] + fig_thai_3_review.data[:1]  # Reorder the scatter dots to the foremost layer
-    st.plotly_chart(fig_thai_3_review, width="stretch")
+    display_chart(fig_thai_3_review)
 
     st.html(f"""
     <div style='text-align: center;'><b><u>{t['labels']['regression_results']}</u></b>
@@ -850,14 +845,12 @@ with st.expander(t["data_methodology"]):
         )
 
         fig_resid_thai_0_rev.update_layout(
-            margin={"r": 0, "t": 0, "l": 0, "b": 0},
-            # title="Level 0 Review Count: Residual vs. Fitted Plot (模型診斷圖)",
             xaxis_title=t['labels']['predicted_value_xaxis'],
             yaxis_title=t['labels']['residuals_yaxis'],
             height=500
         )
 
-        st.plotly_chart(fig_resid_thai_0_rev, width="stretch")
+        display_chart(fig_resid_thai_0_rev)
 
     with price_corr_remark_2:
 
@@ -901,13 +894,12 @@ with st.expander(t["data_methodology"]):
         )
 
         fig_resid_thai_3_rev.update_layout(
-            margin={"r": 0, "t": 0, "l": 0, "b": 0},
             xaxis_title=t['labels']['predicted_value_xaxis'],
             yaxis_title=t['labels']['residuals_yaxis'],
             height=500
         )
 
-        st.plotly_chart(fig_resid_thai_3_rev, width="stretch")
+        display_chart(fig_resid_thai_3_rev)
 
 st.divider()
 
