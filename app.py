@@ -126,25 +126,15 @@ def display_chart(fig, is_map=False, legend=None, key=None):
 # Streamlit UI Starts
 # =====================
 
-top_col1, top_col2 = st.columns([8.5, 1.5])
-with top_col1:
-    st.html(
-        f"""
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; color: gray;">
-            <div style = "text-align: left;" ></div>
-            <div style="text-align: right; font-size: 0.9em;">{t["select_lang"]}</div>
-        </div>
-        """
-    )
-
-with top_col2:
+with st.container(horizontal=True, vertical_alignment="center"):
+    st.space('stretch')
     st.selectbox(
-        "Select Language",
+        label=t["select_lang"],
         options=["中文", "English"],
         index=0 if st.session_state.lang == 'tc' else 1,
         key='lang_choice',
         on_change=change_lang,
-        label_visibility="collapsed"
+        width=130
     )
 
 st.title(t["title"])
