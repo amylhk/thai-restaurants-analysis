@@ -65,6 +65,10 @@ st.html("""
         margin-bottom: 15px !important;
     }
     
+    [data-testid="stElementToolbar"] button[aria-label="Download as CSV"] {
+        display: none !important;
+    }
+    
     </style>
     """)
 
