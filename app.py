@@ -84,7 +84,7 @@ except Exception as e:
     st.error(f"Unable to load data. Please check if the 'Data' folder contains the necessary files. Details:{e}")
     st.stop()
 
-def display_chart(fig, is_map=False, key=None):
+def display_chart(fig, is_map=False, legend=None, key=None):
     fig.update_layout(
         dragmode=False,
         yaxis=dict(fixedrange=True),
@@ -98,6 +98,27 @@ def display_chart(fig, is_map=False, key=None):
             'scrollZoom': False,
             'displayModeBar': False
         }
+
+    if legend:
+        title, x, y = legend
+        fig.update_layout(
+            legend=dict(
+                title={
+                    'text': title,
+                    'font': {'color': 'black'}
+                },
+                x=x,
+                y=y,
+                xanchor='right',
+                yanchor='top',
+                bgcolor="rgba(255, 255, 255, 0.7)",
+                bordercolor="Black",
+                borderwidth=1,
+                font=dict(color="black")
+            )
+        )
+    else:
+        fig.update_layout(showlegend=False)
 
     st.plotly_chart(fig, config=config, width='stretch', key=key)
 
@@ -173,8 +194,6 @@ with overview_1:
                           hoverinfo='skip',
                           hovertemplate=None)
 
-        fig_naming_style_pie.update_layout(showlegend=False)
-
         display_chart(fig_naming_style_pie)
 
     with overview_1_2:
@@ -192,27 +211,7 @@ with overview_1:
             hovertemplate=f'%{{x}} | %{{customdata[0]}}<br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
         )
 
-        fig_naming_style_bar.update_layout(
-            xaxis_title=None,
-            yaxis_title=None,
-            legend=dict(
-                title={
-                    'text': t['labels'][cols['naming_style']],
-                    'font': {'color': 'black'}
-                },
-
-                x=0.99,
-                y=0.98,
-                xanchor='right',
-                yanchor='top',
-                bgcolor="rgba(255, 255, 255, 0.7)",
-                bordercolor="Black",
-                borderwidth=1,
-                font = dict(color="black")
-            )
-        )
-
-        display_chart(fig_naming_style_bar)
+        display_chart(fig_naming_style_bar, legend=(t['labels'][cols['naming_style']], 0.99, 0.98))
 
 with overview_2:
     fig_naming_style_map = px.scatter_map(thai_restaurants, lat='latitude', lon='longitude',
@@ -226,26 +225,9 @@ with overview_2:
         marker=dict(size=10, opacity=.8)
     )
 
-    fig_naming_style_map.update_layout(
-        mapbox_style="carto-positron",
-        legend=dict(
-            title={
-                'text': t['labels'][cols['naming_style']],
-                'font': {'color': 'black'}
-            },
+    fig_naming_style_map.update_layout(mapbox_style="carto-positron")
 
-            x=0.99,
-            y=0.9,
-            xanchor='right',
-            yanchor='top',
-            bgcolor="rgba(255, 255, 255, 0.7)",
-            bordercolor="Black",
-            borderwidth=1,
-            font=dict(color="black")
-        )
-    )
-
-    display_chart(fig_naming_style_map, is_map=True)
+    display_chart(fig_naming_style_map, is_map=True, legend=(t['labels'][cols['naming_style']], 0.99, 0.9))
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
@@ -281,7 +263,6 @@ with google_1:
 
     fig_rating_box.update_traces(
         hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
-        showlegend = False
     )
 
     display_chart(fig_rating_box)
@@ -302,7 +283,6 @@ with google_2:
 
     fig_review_box.update_traces(
         hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
-        showlegend=False
     )
 
     display_chart(fig_review_box)
@@ -376,24 +356,7 @@ with price_level_2:
             hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
         )
 
-        fig_price_level_bar.update_layout(
-            legend=dict(
-                title={
-                    'text': t["labels"]["price_level"],
-                    'font': {'color': 'black'}
-                },
-                x=0.99,
-                y=0.98,
-                xanchor='right',
-                yanchor='top',
-                bgcolor="rgba(255, 255, 255, 0.7)",
-                bordercolor="Black",
-                borderwidth=1,
-                font=dict(color="black")
-            )
-        )
-
-        display_chart(fig_price_level_bar)
+        display_chart(fig_price_level_bar, legend=(t["labels"]["price_level"], 0.99, 0.98))
 
     with price_level_2_2:
         thai_restaurants_price_level_district = thai_restaurants.groupby(['price_level', cols['district_name']])[
@@ -415,24 +378,7 @@ with price_level_2:
             hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
         )
 
-        fig_price_level_district_bar.update_layout(
-            legend=dict(
-                title={
-                    'text': t["labels"]["price_level"],
-                    'font': {'color': 'black'}
-                },
-                x=0.99,
-                y=0.98,
-                xanchor='right',
-                yanchor='top',
-                bgcolor="rgba(255, 255, 255, 0.7)",
-                bordercolor="Black",
-                borderwidth=1,
-                font=dict(color="black")
-            )
-        )
-
-        display_chart(fig_price_level_district_bar)
+        display_chart(fig_price_level_district_bar, legend=(t["labels"]["price_level"], 0.99, 0.98))
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
@@ -481,8 +427,6 @@ with price_breakdown_1:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_0_rating.update_layout(showlegend=False)
-
         display_chart(fig_price_0_rating)
 
     with price_breakdown_1_3:
@@ -503,8 +447,6 @@ with price_breakdown_1:
         fig_price_3_rating.update_traces(
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
-
-        fig_price_3_rating.update_layout(showlegend=False)
 
         display_chart(fig_price_3_rating)
 
@@ -533,8 +475,6 @@ with price_breakdown_2:
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
 
-        fig_price_0_review.update_layout(showlegend=False)
-
         display_chart(fig_price_0_review)
 
     with price_breakdown_2_3:
@@ -554,8 +494,6 @@ with price_breakdown_2:
         fig_price_3_review.update_traces(
             hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
         )
-
-        fig_price_3_review.update_layout(showlegend=False)
 
         display_chart(fig_price_3_review)
 
@@ -652,23 +590,9 @@ with price_corr_1:
         selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
     )
 
-    fig_thai_0_review.update_layout(
-        legend=dict(
-            title=None,
-            x=0.98,
-            y=0.88,
-            xanchor='right',
-            yanchor='top',
-            bgcolor="rgba(255, 255, 255, 0.7)",
-            bordercolor="Black",
-            borderwidth=1,
-            font=dict(color="black")
-        )
-    )
-
     fig_thai_0_review.data = fig_thai_0_review.data[1:] + fig_thai_0_review.data[:1]  # Reorder the scatter dots to the foremost layer
 
-    display_chart(fig_thai_0_review)
+    display_chart(fig_thai_0_review, legend=(None, 0.98, 0.88))
 
     st.html(f"""<div style='text-align: center;'>
     <b><u>{t['labels']['regression_results']}</u></b>
@@ -766,22 +690,8 @@ with price_corr_2:
         selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
     )
 
-    fig_thai_3_review.update_layout(
-        legend=dict(
-            title=None,
-            x=0.98,
-            y=0.3,
-            xanchor='right',
-            yanchor='top',
-            bgcolor="rgba(255, 255, 255, 0.7)",
-            bordercolor="Black",
-            borderwidth=1,
-            font=dict(color="black")
-        )
-    )
-
     fig_thai_3_review.data = fig_thai_3_review.data[1:] + fig_thai_3_review.data[:1]  # Reorder the scatter dots to the foremost layer
-    display_chart(fig_thai_3_review)
+    display_chart(fig_thai_3_review, legend=(None, 0.98, 0.3))
 
     st.html(f"""
     <div style='text-align: center;'><b><u>{t['labels']['regression_results']}</u></b>
