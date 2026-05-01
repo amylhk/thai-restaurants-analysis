@@ -65,10 +65,6 @@ st.html("""
         margin-bottom: 15px !important;
     }
     
-    .modebar {
-        display: none !important;
-    }
-    
     </style>
     """)
 
