@@ -32,15 +32,17 @@ tc:
     * **API 搜索限制**：受限於搜索機制，若 Google 與 CSDI 的店名有較大差異，或在 Google 出現同名餐廳，可能導致對接誤差，**現已手動剔除歧義樣本，唯此舉令樣本量減少，並存在判讀主觀性**。
     * **時效性**：本數據反映截至 **2026年4月** 之市場狀況，尚未反映後續新開業或結業之變動。
   google_heading: "📣 店名風格對口碑與人氣之影響"
-  google_insight: |
+  google_1: "⭐ 評分"
+  google_1_insight: |
+    * **評分表現**：各類店名風格的**評分中位數為 3.9-4.0**。這顯示儘管食字店名在文化層面深入民心，但在實際口碑表現上與標準店名並無顯著差異。
+  google_2: "💬 評論數量"
+  google_2_insight: |
+    * **人氣落差**：食字店名的**平均評論數量顯著低於標準及英文店名**。若以評論數作為人氣指標，統計結果**打破了大眾普遍認為「食字店名具親和力、更能吸客」的直覺**。
+  tooltip: "ℹ️\n\n圖表\n\n說明"
+  tooltip_boxplot: |
     * **箱形圖 (Boxplot) 說明**：
-      * **核心區間**：盒形的下沿、中線與上沿分別代表 **第一四分位數 (Lower Quartile/Q1)**、**中位數 (Median/Q2)** 及 **第三四分位數 (Upper Quartile/Q3)**，反映了 50% 店舖的集中分佈範圍。
+      * **核心區間**：盒形的下沿、中線與上沿分別代表**第一四分位數 (Lower Quartile/Q1)**、**中位數 (Median/Q2)** 及 **第三四分位數 (Upper Quartile/Q3)**，反映了 50% 店舖的集中分佈範圍。
       * **分佈極限**：延伸出的**觸鬚 (Whiskers)** 展示了數據的正常邊界。**超越上邊界的點 (Outliers)** 代表了具備「爆紅」潛力的高人氣店舖。
-    * **初步分析**：
-      * **評分表現**：各類店名風格的**評分中位數為 3.9-4.0**。這顯示儘管食字店名在文化層面深入民心，但在實際口碑表現上與標準店名並無顯著差異。
-      * **人氣落差**：食字店名的**平均評論數量顯著低於標準及英文店名**。若以評論數作為人氣指標，統計結果**打破了大眾普遍認為「食字店名具親和力、更能吸客」的直覺**。
-  google_1: "⭐ 評分分佈"
-  google_2: "💬 評論數量分佈"
   google_remark: |
     ### ⚙️ 數據清洗
     * **異常值處理**：在整合最終分析數據集（$n={total_restaurants_count}$）前，**已剔除2個評分為 0 的無效樣本**。此類樣本通常代表該餐廳尚未累積評分，移除後可確保整體分佈更能反映市場真實口碑。
@@ -213,15 +215,17 @@ en:
     * **API Search Constraints**: Due to search mechanism limitations, significant discrepancies between Google and CSDI names, or duplicate restaurant names, may cause matching errors. **Ambiguous samples have been manually excluded; however, this has reduced the total sample size and introduced a degree of subjective judgment**.
     * **Temporal Relevance**: This dataset reflects market conditions as of **April 2026** and does not account for subsequent openings or closures.
   google_heading: "📣 Impact of Naming Styles on Reputation and Popularity"
-  google_insight: |
+  google_1: "⭐ Rating"
+  google_1_insight: |
+    * **Rating Performance**: The **median rating** across all naming styles falls within the **3.9–4.0 range**. This indicates that while pun-based names are deeply rooted in local culture, their actual reputation shows no significant deviation from standard naming conventions.
+  google_2: "💬 Review Count"
+  google_2_insight: |
+    * **The Popularity Shortfall**: Data reveals that the **average review count for pun-based names is significantly lower** than that of standard and English names. Taking review volume as a proxy for popularity, these statistical results **challenge the common perception that humorous names are more approachable or effective at attracting customers**.
+  tooltip: "ℹ️\n\nChart\n\nGuide"
+  tooltip_boxplot: |
     * **Boxplot Explained**:
       * **Core Range**: The lower edge, center line, and upper edge of the box represent the **Lower Quartile (Q1)**, **Median (Q2)**, and **Upper Quartile (Q3)**, respectively. This range captures the central 50% of the restaurants in the sample.
       * **Data Ranges & Outliers**: The extended **whiskers** illustrate the normal boundaries of the data. **Points beyond the upper fence (Outliers)** represent high-popularity restaurants with significant growth potential.
-    * **Preliminary Analysis**:
-      * **Rating Performance**: The **median rating** across all naming styles falls within the **3.9–4.0 range**. This indicates that while pun-based names are deeply rooted in local culture, their actual reputation shows no significant deviation from standard naming conventions.
-      * **The Popularity Shortfall**: Data reveals that the **average review count for pun-based names is significantly lower** than that of standard and English names. Taking review volume as a proxy for popularity, these statistical results **challenge the common perception that humorous names are more approachable or effective at attracting customers**.
-  google_1: "⭐ Rating Distribution"
-  google_2: "💬 Review Count Distribution"
   google_remark: |
     ### ⚙️ Data Cleaning
     * **Outlier Handling**: Prior to finalizing the research dataset ($n={total_restaurants_count}$), **2 invalid samples with a rating of 0 were excluded**. Such samples typically represent restaurants that have not yet accumulated sufficient ratings; removing them ensures that the overall distribution more accurately reflects genuine **market sentiment** and reputation.

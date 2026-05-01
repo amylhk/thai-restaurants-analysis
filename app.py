@@ -69,6 +69,31 @@ st.html("""
         display: none !important;
     }
     
+    .st-key-popover {
+        position: relative;
+    }
+    
+    div[data-testid="stPopover"] {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 100;
+        width: 100px;
+        border-radius: 50px;
+    }
+
+    div[data-testid="stPopover"] > button {
+        background-color: rgba(255, 255, 255, 0.1); /* 半透明 */
+        border: 1px solid #ccc;
+        font-size: 5px;
+    }
+
+    /* 滑鼠經過時變色 */
+    div[data-testid="stPopover"] > button:hover {
+        background-color: rgba(255, 255, 255, 1);
+        border-color: #666;
+    }
+    
     </style>
     """)
 
@@ -254,13 +279,17 @@ with st.expander(t["data_methodology"]):
 # ============================
 
 st.divider()
-st.header(t["google_heading"])
-st.markdown(t["google_insight"])
 
-google_1, google_2 = st.columns(2)
+st.header(t["google_heading"])
+
+with st.container(key="popover"):
+
+    with st.popover(t["tooltip"]):
+        st.markdown(t["tooltip_boxplot"])
+
+    google_1, google_2 = st.tabs([t["google_1"], t["google_2"]])
 
 with google_1:
-    st.subheader(t["google_1"])
     fig_rating_box = px.box(
         thai_restaurants,
         x=cols['naming_style'],
@@ -277,10 +306,18 @@ with google_1:
         hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
     )
 
+    fig_rating_box.add_annotation(
+        x=2, y=20,
+        text="Key Insight!",
+        showarrow=True,
+        arrowhead=1
+    )
+
     display_chart(fig_rating_box)
 
+    st.markdown(t["google_1_insight"])
+
 with google_2:
-    st.subheader(t["google_2"])
     fig_review_box = px.box(
         thai_restaurants,
         x=cols['naming_style'],
@@ -298,6 +335,8 @@ with google_2:
     )
 
     display_chart(fig_review_box)
+
+    st.markdown(t["google_2_insight"])
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(
