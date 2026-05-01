@@ -84,7 +84,7 @@ except Exception as e:
     st.error(f"Unable to load data. Please check if the 'Data' folder contains the necessary files. Details:{e}")
     st.stop()
 
-def display_chart(fig, is_map=False, legend=None, key=None):
+def display_chart(fig, height=300, is_map=False, legend=None, key=None):
     fig.update_layout(
         dragmode=False,
         yaxis=dict(fixedrange=True),
@@ -118,7 +118,7 @@ def display_chart(fig, is_map=False, legend=None, key=None):
             )
         )
     else:
-        fig.update_layout(showlegend=False)
+        fig.update_layout(showlegend=False, height=height)
 
     st.plotly_chart(fig, config=config, width='stretch', key=key)
 
@@ -194,10 +194,9 @@ with overview_1:
     fig_naming_style_bar.update_layout(
         xaxis=dict(visible=False, range=[0, total_count]),
         yaxis=dict(visible=False),
-        height=120,
     )
 
-    display_chart(fig_naming_style_bar)
+    display_chart(fig_naming_style_bar, height=120)
 
     st.markdown(t['overview_1_insight'].format(total_restaurants_count=total_restaurants_count,
                                              pun_count=pun_count,
@@ -218,8 +217,6 @@ with overview_2:
     fig_naming_style_bar.update_traces(
         hovertemplate=f'%{{x}} | %{{customdata[0]}}<br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
     )
-
-    fig_naming_style_bar.update_layout(height=300)
 
     display_chart(fig_naming_style_bar, legend=(t['labels'][cols['naming_style']], 0.99, 0.98))
 
