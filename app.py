@@ -113,7 +113,7 @@ with top_col1:
 
 with top_col2:
     st.selectbox(
-        "",
+        "Select Language",
         options=["中文", "English"],
         index=0 if st.session_state.lang == 'tc' else 1,
         key='lang_choice',
