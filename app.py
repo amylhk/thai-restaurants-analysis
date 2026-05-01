@@ -171,71 +171,74 @@ pun_percent = pun_count / total_restaurants_count * 100
 denominator = total_restaurants_count / pun_count
 
 st.header(t['overview_heading'])
-st.markdown(t['overview_insight'].format(total_restaurants_count=total_restaurants_count,
-                                         pun_count=pun_count,
-                                         pun_percent=pun_percent,
-                                         denominator=denominator))
 
-overview_1, overview_2 = st.tabs([t['overview_1'], t['overview_2']])
+overview_1, overview_2, overview_3 = st.tabs([t['overview_1'], t['overview_2'], t['overview_3']])
 
 with overview_1:
-    # overview_1_1, overview_1_2 = st.columns([1, 3])
+    naming_style_df['total'] = naming_style_df['count'].sum()
 
-    # with overview_1_1:
-        st.subheader(t['overview_1_1'])
+    naming_style_df['percent'] = naming_style_df['count'] / naming_style_df['total']
 
-        naming_style_df['total'] = naming_style_df['count'].sum()
+    fig_naming_style_bar = px.bar(
+        naming_style_df,
+        y='total',
+        x='count',
+        color=cols['naming_style'],
+        orientation='h',
+        color_discrete_sequence=MY_CHART_COLORS,
+        labels=t["labels"],
+        custom_data=[cols['naming_style'], 'percent']
+    )
 
-        naming_style_df['percent'] = naming_style_df['count'] / naming_style_df['total']
+    total_count = naming_style_df['count'].sum()
 
-        fig_naming_style_bar = px.bar(
-            naming_style_df,
-            y='total',
-            x='count',
-            color=cols['naming_style'],
-            orientation='h',
-            color_discrete_sequence=MY_CHART_COLORS,
-            labels=t["labels"],
-            custom_data=[cols['naming_style'], 'percent']
-        )
+    fig_naming_style_bar.update_traces(
+        texttemplate="%{customdata[0]}<br>%{x}<br>(%{customdata[1]:.1%})",
+        textposition='inside',
+        textfont_size=16,
+        insidetextanchor='middle',
+        hoverinfo='skip',
+        hovertemplate=None
+    )
 
-        total_count = naming_style_df['count'].sum()
+    fig_naming_style_bar.update_layout(
+        xaxis=dict(visible=False, range=[0, total_count]),
+        yaxis=dict(visible=False),
+        height=120,
+    )
 
-        fig_naming_style_bar.update_traces(
-            texttemplate="%{customdata[0]}<br>%{x}<br>(%{customdata[1]:.1%})",
-            textposition='inside',
-            textfont_size=16,
-            insidetextanchor='middle',
-            hoverinfo='skip',
-            hovertemplate=None
-        )
+    display_chart(fig_naming_style_bar)
 
-        fig_naming_style_bar.update_layout(
-            xaxis=dict(showgrid=False, showticklabels=False, zeroline=False, title=""),
-            yaxis=dict(showgrid=False, showticklabels=False, title=""),
-            height=120,
-        )
-
-        display_chart(fig_naming_style_bar)
-
-    # with overview_1_2:
-        st.subheader(t['overview_1_2'])
-        thai_restaurants_district_group = thai_restaurants.groupby(cols['naming_style'])[[cols['naming_style'], cols['district_name']]] \
-            .value_counts().reset_index().sort_values('count', ascending=False)
-
-        fig_naming_style_bar = px.bar(thai_restaurants_district_group, x=cols['district_name'], y='count',
-                                      color=cols['naming_style'], color_discrete_sequence=MY_CHART_COLORS,
-                                      barmode='group', custom_data=[cols['naming_style']],
-                                      labels=t["labels"],
-                                      )
-
-        fig_naming_style_bar.update_traces(
-            hovertemplate=f'%{{x}} | %{{customdata[0]}}<br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
-        )
-
-        display_chart(fig_naming_style_bar, legend=(t['labels'][cols['naming_style']], 0.99, 0.98))
+    st.markdown(t['overview_1_insight'].format(total_restaurants_count=total_restaurants_count,
+                                             pun_count=pun_count,
+                                             pun_percent=pun_percent,
+                                             denominator=denominator))
 
 with overview_2:
+
+    thai_restaurants_district_group = thai_restaurants.groupby(cols['naming_style'])[[cols['naming_style'], cols['district_name']]] \
+        .value_counts().reset_index().sort_values('count', ascending=False)
+
+    fig_naming_style_bar = px.bar(thai_restaurants_district_group, x=cols['district_name'], y='count',
+                                  color=cols['naming_style'], color_discrete_sequence=MY_CHART_COLORS,
+                                  barmode='group', custom_data=[cols['naming_style']],
+                                  labels=t["labels"],
+                                  )
+
+    fig_naming_style_bar.update_traces(
+        hovertemplate=f'%{{x}} | %{{customdata[0]}}<br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
+    )
+
+    fig_naming_style_bar.update_layout(height=300)
+
+    display_chart(fig_naming_style_bar, legend=(t['labels'][cols['naming_style']], 0.99, 0.98))
+
+    st.markdown(t['overview_2_insight'].format(total_restaurants_count=total_restaurants_count,
+                                               pun_count=pun_count,
+                                               pun_percent=pun_percent,
+                                               denominator=denominator))
+
+with overview_3:
     fig_naming_style_map = px.scatter_map(thai_restaurants, lat='latitude', lon='longitude',
                                           color=cols['naming_style'], color_discrete_sequence=MY_CHART_COLORS,
                                           custom_data=['restaurant_name_tc', cols['district_name'], cols['address']],
@@ -247,7 +250,7 @@ with overview_2:
         marker=dict(size=10, opacity=.8)
     )
 
-    fig_naming_style_map.update_layout(mapbox_style="carto-positron")
+    fig_naming_style_map.update_layout(mapbox_style="carto-positron", height=350)
 
     display_chart(fig_naming_style_map, is_map=True, legend=(t['labels'][cols['naming_style']], 0.99, 0.9))
 

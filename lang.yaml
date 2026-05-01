@@ -7,15 +7,15 @@ tc:
 
     本研究旨在探討「**食字 (Pun-based)**」與「**標準 (Standard)**」命名對餐廳商業表現之影響。在數據採集上，本研究整合了由**食物環境衞生署 (FEHD)** 提供、並透過**空間數據共享平台 (CSDI)** 獲取的**食肆牌照數據**，以及從 **Google Places API** 採集的**評價資訊**（包括評分、評論數量及價格等級）。
   overview_heading: "🍽️ 納入研究之餐廳概覽"
-  overview_insight: |
+  overview_1: "🔎 店名風格"
+  overview_1_insight: |
     * **樣本組成：** 在 {total_restaurants_count} 間納入研究的餐廳中，共有 **{pun_count} 間**以食字（諧音雙關）命名，佔整體樣本 **{pun_percent:.1f}%**，即平均每 **{denominator:.0f} 間**餐廳中就有 1 間以食字命名。
-      * 常見食字範例：泰簡單、泰好味、泰式食
+    * **食字範例**：泰簡單、泰好味、泰式食
+  overview_2: "📍 地區分佈"
+  overview_2_insight: |
     * **地區分佈：** 數據結果與大眾認知吻合，**九龍城**擁有的泰國餐廳數量居全港之冠，惟其食字店名的比例相對較低。
     * **命名趨勢：** 食字比例超過半數的地區包括元朗、荃灣、葵青、北區、屯門、沙田、深水埗、中西區、黃大仙及大埔，反映**食字店名風格較多集中於新界地區**。
-  overview_1: "📊 基本統計"
-  overview_2: "🗺️ 餐廳地圖"
-  overview_1_1: "🔎 店名風格一覽"
-  overview_1_2: "📍 店名風格（按地區）"
+  overview_3: "🗺️ 餐廳地圖"
   show_all: "📋 顯示{total_restaurants_count}間泰國餐廳資料"
   data_methodology: "🛠️ 數據處理流程及說明"
   overview_remark: |
@@ -188,15 +188,15 @@ en:
         
       This study compares "**Pun**" vs. "**Standard**" naming strategies by integrating official license data from the **FEHD** (via **CSDI**) with metrics from the **Google Places API**, including **Rating**, **Review Count** and **Price Level**.
   overview_heading: "🍽 Overview of Analyzed Restaurants"
-  overview_insight: |
+  overview_1: "🔎 Naming Overview"
+  overview_1_insight: |
     * **Sample Composition:** Among the {total_restaurants_count} restaurants included in this study, **{pun_count}** are named using "Puns" (wordplay), accounting for **{pun_percent:.1f}%** of the total sample. This means, on average, 1 out of every **{denominator:.0f}** Thai restaurants adopts a pun-based naming strategy.
-      * Common Examples: "Thai Simple" (泰簡單, *taai3 gaan2 daan1*), "Thai Delicious" (泰好味 *taai3 hou2 mei6*), "Thai Style Eat" (泰式食 *taai3 sik1 sik6*)
+    * **Pun Examples**: "Thai Simple" (泰簡單, *taai3 gaan2 daan1*), "Thai Delicious" (泰好味 *taai3 hou2 mei6*), "Thai Style Eat" (泰式食 *taai3 sik1 sik6*)
+  overview_2: "📍 By District"
+  overview_2_insight: |
     * **Geographical Distribution:** Consistent with public perception, **Kowloon City** has the highest concentration of Thai restaurants in Hong Kong, but its proportion of pun-based naming is relatively low.
     * **Naming Trends:** Puns are used in more than half of the Thai restaurants in Yuen Long, Tsuen Wan, Kwai Tsing, North District, Tuen Mun, Sha Tin, Sham Shui Po, Central & Western, Wong Tai Sin, and Tai Po. This suggests that **pun-based naming style is most prevalent in the New Territories**.
-  overview_1: "📊 Statistics"
-  overview_2: "🗺️ Restaurant Map"
-  overview_1_1: "🔎 Naming Style Overview"
-  overview_1_2: "📍 Naming Style (By District)"
+  overview_3: "🗺️ Restaurant Map"
   show_all: "📋 Show {total_restaurants_count} Thai Restaurant Records"
   data_methodology: "🛠️ Data Processing and Methodology"
   overview_remark: |
