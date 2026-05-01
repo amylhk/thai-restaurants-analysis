@@ -87,6 +87,7 @@ except Exception as e:
 def display_chart(fig, is_map=False, key=None):
     fig.update_layout(
         dragmode=False,
+        yaxis=dict(fixedrange=True),
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
     )
 
