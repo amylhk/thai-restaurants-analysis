@@ -75,8 +75,8 @@ st.html("""
     
     div[class*="st-key-popover"] div[data-testid="stPopover"] {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: -20px;
+        right: -10px;
         z-index: 100;
         width: 100px;
         border-radius: 50px;
@@ -94,8 +94,23 @@ st.html("""
         border-color: #666;
     }
     
+    div[class*="st-key-benchmark"] {
+        color: gray;
+    }
     </style>
     """)
+
+st.html(f"""
+    <style>
+    div[class*="st-key-strat1"] {{
+        color: {px.colors.qualitative.Prism[0]};
+    }}
+    
+    div[class*="st-key-strat2"] {{
+        color: {px.colors.qualitative.Prism[2]};
+    }}
+    </style>
+""")
 
 def change_lang():
     if st.session_state.lang_choice == "中文":
@@ -555,208 +570,230 @@ st.markdown(t["price_level_breakdown_2_insight"])
 # ============================
 st.divider()
 st.header(t["price_corr_heading"])
-st.markdown(t["price_corr_insight"])
+st.markdown(t["price_corr_insight_1"])
 
-price_corr_1, price_corr_2 = st.columns(2)
+price_corr_1, price_corr_2 = st.tabs([t["price_strat_1"], t["price_strat_2"]])
 
 with price_corr_1:
-    st.subheader(t["price_corr_1"])
+    with st.container(key="popover5"):
+        thai_0_review = thai_price_0.groupby(cols['district_name']).agg(
+            total_restaurants_count=(cols['naming_style'], 'count'),
+            pun_restaurants_count=(cols['naming_style'], lambda x: (x.isin(['Pun', '食字'])).sum()),
+            avg_pun_reviews=('review_count', lambda x: thai_price_0.loc[x.index].query(f"{cols['naming_style']} in ['Pun', '食字']")['review_count'].median()),
+            avg_all_reviews=('review_count', 'median')
+        ).reset_index()
 
-    thai_0_review = thai_price_0.groupby(cols['district_name']).agg(
-        total_restaurants_count=(cols['naming_style'], 'count'),
-        pun_restaurants_count=(cols['naming_style'], lambda x: (x.isin(['Pun', '食字'])).sum()),
-        avg_pun_reviews=('review_count', lambda x: thai_price_0.loc[x.index].query(f"{cols['naming_style']} in ['Pun', '食字']")['review_count'].median()),
-        avg_all_reviews=('review_count', 'median')
-    ).reset_index()
+        thai_0_review['pun_ratio'] = (thai_0_review['pun_restaurants_count'] / thai_0_review['total_restaurants_count']) * 100
 
-    thai_0_review['pun_ratio'] = (thai_0_review['pun_restaurants_count'] / thai_0_review['total_restaurants_count']) * 100
+        thai_0_review = thai_0_review.dropna(subset=['avg_pun_reviews'])
 
-    thai_0_review = thai_0_review.dropna(subset=['avg_pun_reviews'])
-
-    fig_thai_0_review = px.scatter(
-        thai_0_review,
-        x='pun_ratio',
-        y='avg_pun_reviews',
-        text=cols['district_name'],
-        size='pun_restaurants_count',
-        size_max=20,
-        color=pd.Series([t['labels']['pun_restaurants_district']] * len(thai_0_review)),
-        color_discrete_sequence=[px.colors.qualitative.Prism[0]],
-        labels=t["labels"],
-        custom_data=['pun_restaurants_count', 'total_restaurants_count'],
-    )
-
-    X_0_rev = thai_0_review['pun_ratio']
-    Y_0_rev = thai_0_review['avg_pun_reviews']
-    X_const_0_rev = sm.add_constant(X_0_rev)
-
-    # RLM: Best for handling outliers
-    rlm_model_0_rev = sm.RLM(Y_0_rev, X_const_0_rev).fit()
-
-    X_plot_0_rev = np.linspace(X_0_rev.min(), X_0_rev.max(), 100)
-    X_plot_const_0_rev = sm.add_constant(X_plot_0_rev)
-    Y_rlm_pred_0_rev = rlm_model_0_rev.predict(X_plot_const_0_rev)
-
-    fig_thai_0_review.add_trace(
-        go.Scatter(
-            x=X_plot_0_rev,
-            y=Y_rlm_pred_0_rev,
-            mode='lines',
-            name=t['labels']['pun_restaurants_trendline'],
-            line=dict(color=px.colors.qualitative.Prism[0], dash='dash'),
-            hovertemplate="%{fullData.name}<extra></extra>",
+        fig_thai_0_review = px.scatter(
+            thai_0_review,
+            x='pun_ratio',
+            y='avg_pun_reviews',
+            text=cols['district_name'],
+            size='pun_restaurants_count',
+            size_max=20,
+            color=pd.Series([t['labels']['pun_restaurants_district']] * len(thai_0_review)),
+            color_discrete_sequence=[px.colors.qualitative.Prism[0]],
+            labels=t["labels"],
+            custom_data=['pun_restaurants_count', 'total_restaurants_count'],
         )
-    )
 
-    # Control Group of All Restaurants
+        X_0_rev = thai_0_review['pun_ratio']
+        Y_0_rev = thai_0_review['avg_pun_reviews']
+        X_const_0_rev = sm.add_constant(X_0_rev)
 
-    Y_all_rev = thai_0_review['avg_all_reviews']
+        # RLM: Best for handling outliers
+        rlm_model_0_rev = sm.RLM(Y_0_rev, X_const_0_rev).fit()
 
-    rlm_model_all_rev = sm.RLM(Y_all_rev, X_const_0_rev).fit()
+        X_plot_0_rev = np.linspace(X_0_rev.min(), X_0_rev.max(), 100)
+        X_plot_const_0_rev = sm.add_constant(X_plot_0_rev)
+        Y_rlm_pred_0_rev = rlm_model_0_rev.predict(X_plot_const_0_rev)
 
-    Y_rlm_pred_all_rev = rlm_model_all_rev.predict(X_plot_const_0_rev)
-
-    fig_thai_0_review.add_trace(
-        go.Scatter(
-            x=X_plot_0_rev,
-            y=Y_rlm_pred_all_rev,
-            mode='lines',
-            name=t['labels']['all_restaurants_trendline'],
-            line=dict(color='gray', dash='dash'),
-            hovertemplate="%{fullData.name}<extra></extra>",
+        fig_thai_0_review.add_trace(
+            go.Scatter(
+                x=X_plot_0_rev,
+                y=Y_rlm_pred_0_rev,
+                mode='lines',
+                name=t['labels']['pun_restaurants_trendline'],
+                line=dict(color=px.colors.qualitative.Prism[0], dash='dash'),
+                hovertemplate="%{fullData.name}<extra></extra>",
+            )
         )
-    )
 
-    fig_thai_0_review.update_traces(
-        marker=dict(
-            opacity=0.8,
-            line=dict(width=1, color=shadow_color)
-        ),
-        textposition='top center',
-        textfont=dict(
-            shadow = f"0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}"
-        ),
-        hovertemplate=f"{t['labels']['avg_pun_reviews']}{t['labels']['colon']}%{{y}}<br>"
-                      f"{t['labels']['pun_restaurants_count']}{t['labels']['colon']}%{{customdata[0]}}<br>"
-                      f"{t['labels']['total_restaurants_count']}{t['labels']['colon']}%{{customdata[1]}}<br>"
-                      f"{t['labels']['pun_ratio']}{t['labels']['colon']}%{{x:.2f}}%<extra></extra>",
-        selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
-    )
+        # Control Group of All Restaurants
 
-    fig_thai_0_review.data = fig_thai_0_review.data[1:] + fig_thai_0_review.data[:1]  # Reorder the scatter dots to the foremost layer
+        Y_all_rev = thai_0_review['avg_all_reviews']
 
-    display_chart(fig_thai_0_review, legend=(None, 0.98, 0.88))
+        rlm_model_all_rev = sm.RLM(Y_all_rev, X_const_0_rev).fit()
 
-    st.html(f"""<div style='text-align: center;'>
-    <b><u>{t['labels']['regression_results']}</u></b>
-    <p style='color:{px.colors.qualitative.Prism[0]};'><b>--- {t['labels']['price_level_0']} ---</b><br>
-    {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_0_rev.params['pun_ratio']:.3f}X + {rlm_model_0_rev.params['const']:.3f}<br>
-    {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_0_rev.tvalues['pun_ratio']:.3f}<br>
-    {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_0_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}</p>
-    <p style='color:gray;'><b>--- {t['labels']['benchmark']} ---</b><br>
-    {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_all_rev.params['pun_ratio']:.3f}X + {rlm_model_all_rev.params['const']:.3f}<br>
-    {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_all_rev.tvalues['pun_ratio']:.3f}<br>
-    {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_all_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}</p></div>
-    """)
+        Y_rlm_pred_all_rev = rlm_model_all_rev.predict(X_plot_const_0_rev)
+
+        fig_thai_0_review.add_trace(
+            go.Scatter(
+                x=X_plot_0_rev,
+                y=Y_rlm_pred_all_rev,
+                mode='lines',
+                name=t['labels']['all_restaurants_trendline'],
+                line=dict(color='gray', dash='dash'),
+                hovertemplate="%{fullData.name}<extra></extra>",
+            )
+        )
+
+        fig_thai_0_review.update_traces(
+            marker=dict(
+                opacity=0.8,
+                line=dict(width=1, color=shadow_color)
+            ),
+            textposition='top center',
+            textfont=dict(
+                shadow = f"0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}"
+            ),
+            hovertemplate=f"{t['labels']['avg_pun_reviews']}{t['labels']['colon']}%{{y}}<br>"
+                          f"{t['labels']['pun_restaurants_count']}{t['labels']['colon']}%{{customdata[0]}}<br>"
+                          f"{t['labels']['total_restaurants_count']}{t['labels']['colon']}%{{customdata[1]}}<br>"
+                          f"{t['labels']['pun_ratio']}{t['labels']['colon']}%{{x:.2f}}%<extra></extra>",
+            selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
+        )
+
+        fig_thai_0_review.data = fig_thai_0_review.data[1:] + fig_thai_0_review.data[:1]  # Reorder the scatter dots to the foremost layer
+
+        st.subheader(t["price_corr_1"])
+
+        with st.popover(t["tooltip"]):
+            st.subheader(t["regression_results"])
+
+            with st.container(key="strat1"):
+                st.markdown(f"""
+                * **{t['labels']['price_level_0']}**
+                    * {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_0_rev.params['pun_ratio']:.3f}X + {rlm_model_0_rev.params['const']:.3f}
+                    * {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_0_rev.tvalues['pun_ratio']:.3f}
+                    * {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_0_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}
+                """)
+
+            with st.container(key="benchmark"):
+                st.markdown(f"""
+                * **{t['labels']['benchmark']}**
+                    * {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_all_rev.params['pun_ratio']:.3f}X + {rlm_model_all_rev.params['const']:.3f}
+                    * {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_all_rev.tvalues['pun_ratio']:.3f}
+                    * {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_all_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}
+                """)
+
+            st.markdown(t["tooltip_corr"])
+        display_chart(fig_thai_0_review, legend=(None, 0.98, 0.88))
 
 with price_corr_2:
-    st.subheader(t["price_corr_2"])
+    with st.container(key="popover6"):
+        thai_3_review = thai_price_3.groupby(cols['district_name']).agg(
+            total_restaurants_count=(cols['naming_style'], 'count'),
+            pun_restaurants_count=(cols['naming_style'], lambda x: (x.isin(['Pun', '食字'])).sum()),
+            avg_pun_reviews=('review_count', lambda x: thai_price_3.loc[x.index].query(f"{cols['naming_style']} in ['Pun', '食字']")['review_count'].median()),
+            avg_all_reviews=('review_count', 'median')
+        ).reset_index()
 
-    thai_3_review = thai_price_3.groupby(cols['district_name']).agg(
-        total_restaurants_count=(cols['naming_style'], 'count'),
-        pun_restaurants_count=(cols['naming_style'], lambda x: (x.isin(['Pun', '食字'])).sum()),
-        avg_pun_reviews=('review_count', lambda x: thai_price_3.loc[x.index].query(f"{cols['naming_style']} in ['Pun', '食字']")['review_count'].median()),
-        avg_all_reviews=('review_count', 'median')
-    ).reset_index()
+        thai_3_review['pun_ratio'] = (thai_3_review['pun_restaurants_count'] / thai_3_review['total_restaurants_count']) * 100
 
-    thai_3_review['pun_ratio'] = (thai_3_review['pun_restaurants_count'] / thai_3_review['total_restaurants_count']) * 100
+        thai_3_review = thai_3_review.dropna(subset=['avg_pun_reviews'])
 
-    thai_3_review = thai_3_review.dropna(subset=['avg_pun_reviews'])
-
-    fig_thai_3_review = px.scatter(
-        thai_3_review,
-        x='pun_ratio',
-        y='avg_pun_reviews',
-        text=cols['district_name'],
-        size='pun_restaurants_count',
-        size_max=20,
-        color=pd.Series([t['labels']['pun_restaurants_district']] * len(thai_3_review)),
-        color_discrete_sequence=[px.colors.qualitative.Prism[2]],
-        labels=t["labels"],
-        custom_data=['pun_restaurants_count', 'total_restaurants_count'],
-    )
-
-    X_3_rev = thai_3_review['pun_ratio']
-    Y_3_rev = thai_3_review['avg_pun_reviews']
-    X_const_3_rev = sm.add_constant(X_3_rev)
-
-    # RLM: Best for handling outliers
-    rlm_model_3_rev = sm.RLM(Y_3_rev, X_const_3_rev).fit()
-
-    X_plot_3_rev = np.linspace(X_3_rev.min(), X_3_rev.max(), 100)
-    X_plot_const_3_rev = sm.add_constant(X_plot_3_rev)
-    Y_rlm_pred_3_rev = rlm_model_3_rev.predict(X_plot_const_3_rev)
-
-    fig_thai_3_review.add_trace(
-        go.Scatter(
-            x=X_plot_3_rev,
-            y=Y_rlm_pred_3_rev,
-            mode='lines',
-            name=t['labels']['pun_restaurants_trendline'],
-            line=dict(color=px.colors.qualitative.Prism[2], dash='dash'),
-            hovertemplate="%{fullData.name}<extra></extra>",
+        fig_thai_3_review = px.scatter(
+            thai_3_review,
+            x='pun_ratio',
+            y='avg_pun_reviews',
+            text=cols['district_name'],
+            size='pun_restaurants_count',
+            size_max=20,
+            color=pd.Series([t['labels']['pun_restaurants_district']] * len(thai_3_review)),
+            color_discrete_sequence=[px.colors.qualitative.Prism[2]],
+            labels=t["labels"],
+            custom_data=['pun_restaurants_count', 'total_restaurants_count'],
         )
-    )
 
-    # Control Group of All Restaurants
+        X_3_rev = thai_3_review['pun_ratio']
+        Y_3_rev = thai_3_review['avg_pun_reviews']
+        X_const_3_rev = sm.add_constant(X_3_rev)
 
-    Y_all_rev = thai_3_review['avg_all_reviews']
+        # RLM: Best for handling outliers
+        rlm_model_3_rev = sm.RLM(Y_3_rev, X_const_3_rev).fit()
 
-    rlm_model_all_rev = sm.RLM(Y_all_rev, X_const_3_rev).fit()
+        X_plot_3_rev = np.linspace(X_3_rev.min(), X_3_rev.max(), 100)
+        X_plot_const_3_rev = sm.add_constant(X_plot_3_rev)
+        Y_rlm_pred_3_rev = rlm_model_3_rev.predict(X_plot_const_3_rev)
 
-    Y_rlm_pred_all_rev = rlm_model_all_rev.predict(X_plot_const_0_rev)
-
-    fig_thai_3_review.add_trace(
-        go.Scatter(
-            x=X_plot_3_rev,
-            y=Y_rlm_pred_all_rev,
-            mode='lines',
-            name=t['labels']['all_restaurants_trendline'],
-            line=dict(color='gray', dash='dash'),
-            hovertemplate="%{fullData.name}<extra></extra>",
+        fig_thai_3_review.add_trace(
+            go.Scatter(
+                x=X_plot_3_rev,
+                y=Y_rlm_pred_3_rev,
+                mode='lines',
+                name=t['labels']['pun_restaurants_trendline'],
+                line=dict(color=px.colors.qualitative.Prism[2], dash='dash'),
+                hovertemplate="%{fullData.name}<extra></extra>",
+            )
         )
-    )
 
-    fig_thai_3_review.update_traces(
-        marker=dict(
-            opacity=0.8,
-            line=dict(width=1, color=shadow_color)
-        ),
-        textposition='top center',
-        textfont=dict(
-            shadow=f"0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}"
-        ),
-        hovertemplate=f"{t['labels']['avg_pun_reviews']}{t['labels']['colon']}%{{y}}<br>"
-                      f"{t['labels']['pun_restaurants_count']}{t['labels']['colon']}%{{customdata[0]}}<br>"
-                      f"{t['labels']['total_restaurants_count']}{t['labels']['colon']}%{{customdata[1]}}<br>"
-                      f"{t['labels']['pun_ratio']}{t['labels']['colon']}%{{x:.2f}}%<extra></extra>",
-        selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
-    )
+        # Control Group of All Restaurants
 
-    fig_thai_3_review.data = fig_thai_3_review.data[1:] + fig_thai_3_review.data[:1]  # Reorder the scatter dots to the foremost layer
-    display_chart(fig_thai_3_review, legend=(None, 0.98, 0.3))
+        Y_all_rev = thai_3_review['avg_all_reviews']
 
-    st.html(f"""
-    <div style='text-align: center;'><b><u>{t['labels']['regression_results']}</u></b>
-    <p style='color:{px.colors.qualitative.Prism[2]};'><b>--- {t['labels']['price_level_3']} ---</b><br>
-    {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_3_rev.params['pun_ratio']:.3f}X + {rlm_model_3_rev.params['const']:.3f}<br>
-    {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_3_rev.tvalues['pun_ratio']:.3f}<br>
-    {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_3_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}</p>
-    <p style='color:gray;'><b>--- {t['labels']['benchmark']} ---</b><br>
-    {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_all_rev.params['pun_ratio']:.3f}X + {rlm_model_all_rev.params['const']:.3f}<br>
-    {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_all_rev.tvalues['pun_ratio']:.3f}<br>
-    {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_all_rev.pvalues['pun_ratio']:.3f} {t['labels']['insignificant']}</p></div>
-    """)
+        rlm_model_all_rev = sm.RLM(Y_all_rev, X_const_3_rev).fit()
+
+        Y_rlm_pred_all_rev = rlm_model_all_rev.predict(X_plot_const_0_rev)
+
+        fig_thai_3_review.add_trace(
+            go.Scatter(
+                x=X_plot_3_rev,
+                y=Y_rlm_pred_all_rev,
+                mode='lines',
+                name=t['labels']['all_restaurants_trendline'],
+                line=dict(color='gray', dash='dash'),
+                hovertemplate="%{fullData.name}<extra></extra>",
+            )
+        )
+
+        fig_thai_3_review.update_traces(
+            marker=dict(
+                opacity=0.8,
+                line=dict(width=1, color=shadow_color)
+            ),
+            textposition='top center',
+            textfont=dict(
+                shadow=f"0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}, 0px 0px 2px {shadow_color}"
+            ),
+            hovertemplate=f"{t['labels']['avg_pun_reviews']}{t['labels']['colon']}%{{y}}<br>"
+                          f"{t['labels']['pun_restaurants_count']}{t['labels']['colon']}%{{customdata[0]}}<br>"
+                          f"{t['labels']['total_restaurants_count']}{t['labels']['colon']}%{{customdata[1]}}<br>"
+                          f"{t['labels']['pun_ratio']}{t['labels']['colon']}%{{x:.2f}}%<extra></extra>",
+            selector=dict(mode='markers+text'), legendrank=1  # Select the dots and move them back to first item of legend
+        )
+
+        fig_thai_3_review.data = fig_thai_3_review.data[1:] + fig_thai_3_review.data[:1]  # Reorder the scatter dots to the foremost layer
+
+        st.subheader(t["price_corr_2"])
+
+        with st.popover(t["tooltip"]):
+            st.subheader(t["regression_results"])
+
+            with st.container(key="strat2"):
+                st.markdown(f"""
+                * **{t['labels']['price_level_3']}**
+                    * {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_3_rev.params['pun_ratio']:.3f}X + {rlm_model_3_rev.params['const']:.3f}
+                    * {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_3_rev.tvalues['pun_ratio']:.3f}
+                    * {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_3_rev.pvalues['pun_ratio']:.3f} {t['labels']['significant']}
+                """)
+
+            with st.container(key="benchmark2"):
+                st.markdown(f"""
+                * **{t['labels']['benchmark']}**
+                    * {t['labels']['equation']}{t['labels']['colon']}Y = {rlm_model_all_rev.params['pun_ratio']:.3f}X + {rlm_model_all_rev.params['const']:.3f}
+                    * {t['labels']['z_stat']}{t['labels']['colon']}{rlm_model_all_rev.tvalues['pun_ratio']:.3f}
+                    * {t['labels']['p_value']}{t['labels']['colon']}{rlm_model_all_rev.pvalues['pun_ratio']:.3f} {t['labels']['insignificant']}
+                """)
+
+            st.markdown(t["tooltip_corr"])
+
+        display_chart(fig_thai_3_review, legend=(None, 0.98, 0.3))
+
+st.markdown(t["price_corr_insight_2"])
 
 with st.expander(t["show_price_stratification"]):
     price_strat_1, price_strat_2 = st.tabs([t['price_strat_1'], t['price_strat_2']])

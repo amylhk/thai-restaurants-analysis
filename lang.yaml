@@ -80,37 +80,38 @@ tc:
     * **價格與評論數量關聯持續**：對應熱力圖 (Heatmap) 結果，評論數量與價格等級呈現強烈正相關。此關聯同步反映於中高價餐廳 (Level 3) 評論數量的箱形圖 (Box Plot)：**Level 3 的評論數量高於 Level 0 及整體標準**，而Level 3內，**標準命名的評論數量亦領先**。
     * **後續研究方向**：為排除價格等級造成的干擾，後續分析將繼續拆開平價餐廳 (Level 0) 及中高價餐廳 (Level 3)，並深入探討**不同地區的餐廳**的商業表現。
   price_corr_heading: "🧩 數據解密：從平價到高端市場的命名生存學"
-  price_corr_insight: |
+  price_corr_insight_1: |
     * **指標選擇與研究方法**
       * **價格等級分層**：為排除價格定位的干擾，分析沿用**平價餐廳 (Level 0)** 及 **中高價餐廳 (Level 3)** 進行獨立驗證。
       * **聚焦評論數量**：上述熱力圖顯示食字與**評論數量**相關性較強 ($r = -0.21$)，與**評分**則幾乎無關 ($r = -0.04$)。故分析聚焦於評論數，以探討店名對大眾的「吸引力」與「傳播力」。
       * **分析邏輯**：以各區的「食字店名比例」作為核心指標，觀察食字飽和度如何影響該區餐廳的平均人氣（評論數量）。
       * **模型選擇**：選用**RLM（穩健迴歸）** 模型，以確保趨勢線不受極端值 (Outliers) 扭曲。
+  price_strat_1: "📉 價格等級：Level 0"
+  price_strat_2: "📈 價格等級：Level 3"
+  regression_results: "📊 迴歸分析結果"
+  tooltip_corr: |
+    ### 📖 統計指標釋義
 
+    * **Z 統計量 (Z-statistic)**：
+      * **信號強度**：衡量指標的影響力。數值的絕對值越大，代表該命名風格對人氣的影響越顯著，其結果越不可能由隨機偶然所產生。
+      * **方向指標**：正負號反映了關係的方向。正數 (+) 代表正向促進人氣；負數 (-) 則代表該風格在該市場中可能產生人氣阻礙。
+    * **P 值 (P-value)**：
+      * 衡量「純屬巧合」的概率。通常以 **0.05** 為門檻：
+        * $P < 0.05$：代表店名風格對人氣的影響在統計上是**顯著**的。
+        * $P > 0.05$：代表目前的趨勢有機會只是**隨機波動**。
+  price_corr_1: "📉 平價餐廳：人氣稀釋"
+  price_corr_2: "📈 中高價餐廳：品牌溢價"
+  price_corr_insight_2: |
     * **關鍵發現：創意溢價與平庸陷阱**
       * **Level 0 平價餐廳**：食字店名比例與評論數量呈**負相關**，趨勢線顯示同一區的「食字餐廳」每增加 10% ，它們的**平均評論數量會減少 8.7 條**。反映基層市場中，食字店名可能被聯想為平庸、品牌深度不足，反成為**負面標籤**；或因**同質化嚴重**（如大量「泰XX」），令食客難以分辨，導致食字店名的餐廳人氣隨飽和度下降。
       * **Level 3 中高價餐廳**：趨勢完全反轉，呈**顯著正相關**，趨勢線顯示同一區的「食字餐廳」每增加 10% ，它們的**平均評論數量會增加 29 條**。反映高端消費者更被創意與玩味吸引光顧，食字命名被視為品牌差異化的利器，展現出強大的吸客能力。
       * **極端值辨識**：Level 0 的**旺角區**與 Level 3 的**油尖區**實際評論數遠超模型預測。這反映市中心旺區的「地理優勢」自帶流量，其影響力蓋過命名策略，亦驗證了 RLM 模型排除干擾、捕捉核心趨勢的重要性。
-  price_corr_1: "📉 平價餐廳 (Level 0)：食字命名的人氣稀釋效應"
-  price_corr_2: "📈 中高價餐廳 (Level 3)：命名創意帶來的品牌溢價"
   show_price_stratification: "📋 顯示各區泰國餐廳價格等級分層"
-  price_strat_1: "📉 價格等級：Level 0"
-  price_strat_2: "📈 價格等級：Level 3"
   price_corr_remark: |
     ### ⚙️ 數據處理
 
     * **Level 0 (平價)**：全港原本劃分為 19 區（部分政府數據仍未合併油尖區及旺角區為油尖旺區），但西貢、離島和南區並無符合食字店名定義的平價泰菜餐廳，故最終參與迴歸分析的有效樣本縮減至**16區**。
     * **Level 3 (中高價)**：由於採用食字店名的中高價泰國餐廳樣本量較少，符合統計門檻僅餘**6區**，其趨勢線雖具備統計顯著性（$P < 0.05$），但在泛化到全港市場時需保持審慎，不排除研究結果受個別極端行政區數據影響。
-
-    ### 📊 統計指標釋義
-
-    * **Z 統計量 (Z-statistic)**：
-        * **信號強度**：衡量指標的影響力。數值的絕對值越大，代表該命名風格對人氣的影響越顯著，其結果越不可能由隨機偶然所產生。
-        * **方向指標**：正負號反映了關係的方向。正數 (+) 代表正向促進人氣；負數 (-) 則代表該風格在該市場中可能產生人氣阻礙。
-    * **P 值 (P-value)**：
-        * 衡量「純屬巧合」的概率。通常以 **0.05** 為門檻：
-            * $P < 0.05$：代表店名風格對人氣的影響在統計上是**顯著**的。
-            * $P > 0.05$：代表目前的趨勢有機會只是**隨機波動**。
 
     ### 🎯 殘差分析 (Residual Analysis)
 
@@ -171,7 +172,6 @@ tc:
     pun_restaurants_trendline: "食字店名趨勢線"
     pun_ratio: "該區食字店名普及度 (%)"
     rating: "評分"
-    regression_results: "迴歸分析結果"
     residuals: "殘差值"
     residuals_yaxis: "殘差值（實際 vs. 預測）"
     restaurant_name_en: "餐廳英文名"
@@ -261,39 +261,41 @@ en:
   price_breakdown_2_2: "💬 Level 0"
   price_breakdown_2_3: "💬 Level 3"
   price_level_breakdown_2_insight: |
-    * **Persistent Performance Shortfall in Puns**: While previous analysis suggests that budget restaurants lean toward puns to build approachability, data shows that this naming strategy **does not translate into a tangible competitive advantage**. Across all price levels, **ratings and review counts for restaurants with pun-based names remain consistently lower than those with standard names**, proving that humor does not guarantee market popularity.
+    * **Sustained Correlation between Price and Review Count**: Consistent with the heatmap findings, review counts show a strong positive correlation with price levels. This is further reflected in the Mid-to-High End (Level 3) Review Count Box Plot: **Level 3 restaurants get higher review counts than Level 0 and the overall benchmark**. Within Level 3, **restaurants with standard names continue to lead in review counts**.
+    * **Subsequent Research Direction**: To eliminate price-related interference, subsequent analysis will continue to separate Budget (Level 0) and Mid-to-High End (Level 3) restaurants, and to explore the **commercial performance across different districts**.
   price_corr_heading: "🧩 Data Decoded: The Survival Logic of Naming—From Budget to High-End Markets"
-  price_corr_insight: |
+  price_corr_insight_1: |
     * **Metrics & Methodology**
       * **Price Stratification**: To eliminate price positioning as a confounding variable, the analysis performs independent validations on **Budget (Level 0)** and **Mid-to-High End (Level 3)** segments.
       * **Focus on Review Count**: Heatmap analysis indicates that Pun-based naming has a stronger correlation with **review count** ($r = -0.21$) than with **rating** ($r = -0.04$). Consequently, this study focuses on review count to gauge a brand's attraction and virality.
       * **Analytical Logic**: Using the "Pun-based Naming Ratio" per district as the core metric, the study observes how pun saturation impacts the average popularity (review count) of restaurants in that area.
       * **Model Selection**: **RLM (Robust Linear Model)** was utilized to ensure that trend lines remain undistorted by statistical outliers.
+  price_strat_1: "📉 Price Level 0"
+  price_strat_2: "📈 Price Level 3"
+  regression_results: "Regression Results"
+  tooltip_corr: |
+    ### 📊 Statistical Indicator Glossary
 
+    * **Z-statistic**
+      * **Signal Strength**: Measures the impact of a variable. A larger absolute value indicates a stronger influence of the naming style on popularity, suggesting the result is unlikely to be a product of random chance.
+      * **Directional Indicator**: The sign reflects the nature of the relationship. A **positive (+) value** indicates an increase in popularity, while a **negative (-) value** suggests the naming style may hinder market appeal in that segment.
+    * **P-value**
+      * Measures the **probability of random occurence**. Using **0.05** as the standard threshold:
+          * **$P < 0.05$**: The impact of naming style on popularity is considered **statistically significant**.
+          * **$P > 0.05$**: The observed trend may simply be the result of **random noise**.
+  price_corr_1: "📉 Budget Market: Diluted Appeal"
+  price_corr_2: "📈 Mid-to-High End: Brand Attraction"
+  price_corr_insight_2: |
     * **Key Findings: Creative Premium vs. Mediocrity Trap**
       * **Budget (Level 0)**: There is a **negative correlation** between the prevalence of pun-based names and review count. The trend line reveals that for every 10% increase in pun-based restaurants within a district, their **average review count drops by 8.7**. In the mass market, pun-based names may be perceived as "cliché" or lacking brand depth, effectively becoming a **negative label**. Furthermore, **severe homogenization** (e.g., a high density of repetitive pun-based names) makes it difficult for diners to distinguish between brands, causing popularity to decline as the market becomes saturated.
       * **Mid-to-High End (Level 3)**: The trend reverses completely, showing a **significant positive correlation**. For every 10% increase in pun-based names, their **average review count rises by 29**. High-end consumers are more likely to be drawn to creativity and wit. In this segment, pun-based naming is a tool for brand differentiation, demonstrating a strong pull on high-end diners.
       * **Outlier Identification**: Actual review counts in **Mong Kok (Level 0)** and **Yau Tsim (Level 3)** far exceed model predictions. This highlights how the geographic advantage of prime districts is so dominant that it overrides naming strategies. This also validates the importance of using the RLM model to filter out noise and capture core market trends.
-  price_corr_1: "📉 Price Level 0: How Pun-Saturation Dilutes Mass Market Appeal"
-  price_corr_2: "📈 Price Level 3: Leveraging Creative Wit for High-End Brand Attraction"
   show_price_stratification: "📋 Show Price Level Stratification of Thai Restaurants by District"
-  price_strat_1: "📉 Price Level 0"
-  price_strat_2: "📈 Price Level 3"
   price_corr_remark: |
     ### ⚙️ Data Processing & Sample Filtering
 
     * **Level 0 (Budget)**: Hong Kong was originally divided into 19 districts (some government datasets still treat Mong Kok and Yau Tsim as separate districts rather than a unified Yau Tsim Mong district). However, as Sai Kung, Islands, and Southern District lacked budget Thai restaurants meeting our "Pun-based" naming criteria, the final sample size for regression was narrowed to **16 districts**.
     * **Level 3 (Mid-to-High End)**: Due to the scarcity of high-end Thai restaurants utilizing pun-based names, only **6 districts** met the statistical threshold. While the resulting trendline is statistically significant ($P < 0.05$), caution is advised when generalizing these findings to the broader market, as the results may be influenced by specific district-level outliers.
-
-    ### 📊 Statistical Indicator Glossary
-
-    * **Z-statistic**
-        * **Signal Strength**: Measures the impact of a variable. A larger absolute value indicates a stronger influence of the naming style on popularity, suggesting the result is unlikely to be a product of random chance.
-        * **Directional Indicator**: The sign reflects the nature of the relationship. A **positive (+) value** indicates an increase in popularity, while a **negative (-) value** suggests the naming style may hinder market appeal in that segment.
-    * **P-value**
-        * Measures the **probability of random occurence**. Using **0.05** as the standard threshold:
-            * **$P < 0.05$**: The impact of naming style on popularity is considered **statistically significant**.
-            * **$P > 0.05$**: The observed trend may simply be the result of **random noise**.
 
     ### 🎯 Residual Analysis
 
@@ -348,7 +350,6 @@ en:
     pun_restaurants_trendline: "Pun-based Restaurants Trendline"
     pun_ratio: "Pun-based Naming Prevalence (%)"
     rating: "Rating"
-    regression_results: "Regression Results"
     residuals: "Residuals"
     residuals_yaxis: "Residuals (Actual vs. Predicted)"
     restaurant_name_en: "Restaurant Name (Eng)"
