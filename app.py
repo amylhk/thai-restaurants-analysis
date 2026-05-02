@@ -69,11 +69,11 @@ st.html("""
         display: none !important;
     }
     
-    .st-key-popover {
+    div[class*="st-key-popover"] {
         position: relative;
     }
     
-    div[data-testid="stPopover"] {
+    div[class*="st-key-popover"] div[data-testid="stPopover"] {
         position: absolute;
         top: 0px;
         right: 0px;
@@ -82,14 +82,14 @@ st.html("""
         border-radius: 50px;
     }
 
-    div[data-testid="stPopover"] > button {
+    div[class*="st-key-popover"] div[data-testid="stPopover"] > button {
         background-color: rgba(255, 255, 255, 0.1); /* 半透明 */
         border: 1px solid #ccc;
         font-size: 5px;
     }
 
     /* 滑鼠經過時變色 */
-    div[data-testid="stPopover"] > button:hover {
+    div[class*="st-key-popover"] div[data-testid="stPopover"] > button:hover {
         background-color: rgba(255, 255, 255, 1);
         border-color: #666;
     }
@@ -352,13 +352,14 @@ with st.expander(t["data_methodology"]):
 # ============================
 
 st.divider()
-st.header(t["price_level_heading"])
-st.markdown(t["price_level_insight"].format(total_restaurants_count=total_restaurants_count))
+st.header(t["heatmap_heading"])
 
-price_level_1, price_level_2 = st.columns([1,2])
-
-with price_level_1:
+with st.container(key="popover2"):
     st.subheader(t["price_level_1"])
+
+    with st.popover(t["tooltip"]):
+        st.markdown(t["tooltip_heatmap"])
+
     thai_restaurants['is_pun'] = thai_restaurants['naming_style_en'] == 'Pun'
     thai_corr = thai_restaurants.drop(columns=['district_code', 'license_id', 'latitude', 'longitude']).corr(
         numeric_only=True)
@@ -367,65 +368,72 @@ with price_level_1:
 
     fig_heatmap = px.imshow(thai_corr_rename, text_auto='.4f',
                             color_continuous_scale='rdbu', color_continuous_midpoint=0,
-                            labels=t['labels']
+                            labels=t['labels'], width=400
                             )
 
     fig_heatmap.update_traces(hoverinfo='skip', hovertemplate=None)
     fig_heatmap.update_layout(
         coloraxis_colorbar=dict(
-            x=0.75,
-            xanchor='center',
+            xpad=0,
             y=0.5,
             yanchor='middle'
-        )
+        ),
     )
 
-    display_chart(fig_heatmap)
+    _,middle_col,_ = st.columns([1,2,1])
+    with middle_col:
+        display_chart(fig_heatmap)
 
-with price_level_2:
-    st.subheader(t["price_level_2"])
-    price_level_2_1, price_level_2_2 = st.tabs([t["price_level_2_1"], t["price_level_2_2"]])
+st.markdown(t["heatmap_insight"])
 
-    with price_level_2_1:
-        thai_restaurants_price_level_group = thai_restaurants.groupby('price_level')[[cols['naming_style'], 'price_level']] \
-            .value_counts().reset_index().sort_values(['price_level', 'count'], ascending=[True, False])
+st.divider()
 
-        thai_restaurants_price_level_group['price_level'] = thai_restaurants_price_level_group['price_level'].astype(
-            int).astype(str)
+st.subheader(t["price_level_2"])
 
-        fig_price_level_bar = px.bar(thai_restaurants_price_level_group, x=cols['naming_style'], y='count',
-                                     color='price_level', color_discrete_sequence=px.colors.qualitative.Prism,
-                                     barmode='group', custom_data=['price_level'],
-                                     labels=t["labels"]
-                                     )
+price_level_2_1, price_level_2_2 = st.tabs([t["price_level_2_1"], t["price_level_2_2"]])
 
-        fig_price_level_bar.update_traces(
-            hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
-        )
+with price_level_2_1:
+    thai_restaurants_price_level_group = thai_restaurants.groupby('price_level')[[cols['naming_style'], 'price_level']] \
+        .value_counts().reset_index().sort_values(['price_level', 'count'], ascending=[True, False])
 
-        display_chart(fig_price_level_bar, legend=(t["labels"]["price_level"], 0.99, 0.98))
+    thai_restaurants_price_level_group['price_level'] = thai_restaurants_price_level_group['price_level'].astype(
+        int).astype(str)
 
-    with price_level_2_2:
-        thai_restaurants_price_level_district = thai_restaurants.groupby(['price_level', cols['district_name']])[
-            ['price_level']] \
-            .value_counts().reset_index().sort_values(['price_level', 'count'], ascending=[True, False])
+    fig_price_level_bar = px.bar(thai_restaurants_price_level_group, x=cols['naming_style'], y='count',
+                                 color='price_level', color_discrete_sequence=px.colors.qualitative.Prism,
+                                 barmode='group', custom_data=['price_level'],
+                                 labels=t["labels"]
+                                 )
 
-        thai_restaurants_price_level_district['price_level'] = thai_restaurants_price_level_district[
-            'price_level'].astype(int).astype(str)  # Convert to string to make barmode=group work
+    fig_price_level_bar.update_traces(
+        hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
+    )
 
-        fig_price_level_district_bar = px.bar(thai_restaurants_price_level_district, x=cols['district_name'], y='count',
-                                              color='price_level',
-                                              color_discrete_sequence=px.colors.qualitative.Prism,
-                                              labels=t["labels"],
-                                              barmode='group',
-                                              custom_data=['price_level'],
-                                              )
+    display_chart(fig_price_level_bar, height=250, legend=(t["labels"]["price_level"], 0.99, 0.98))
 
-        fig_price_level_district_bar.update_traces(
-            hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
-        )
+with price_level_2_2:
+    thai_restaurants_price_level_district = thai_restaurants.groupby(['price_level', cols['district_name']])[
+        ['price_level']] \
+        .value_counts().reset_index().sort_values(['price_level', 'count'], ascending=[True, False])
 
-        display_chart(fig_price_level_district_bar, legend=(t["labels"]["price_level"], 0.99, 0.98))
+    thai_restaurants_price_level_district['price_level'] = thai_restaurants_price_level_district[
+        'price_level'].astype(int).astype(str)  # Convert to string to make barmode=group work
+
+    fig_price_level_district_bar = px.bar(thai_restaurants_price_level_district, x=cols['district_name'], y='count',
+                                          color='price_level',
+                                          color_discrete_sequence=px.colors.qualitative.Prism,
+                                          labels=t["labels"],
+                                          barmode='group',
+                                          custom_data=['price_level'],
+                                          )
+
+    fig_price_level_district_bar.update_traces(
+        hovertemplate=f'<b>%{{x}} | {t["labels"]["price_level"]}{t["labels"]["colon"]}%{{customdata[0]}}</b><br>{t["labels"]["count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>',
+    )
+
+    display_chart(fig_price_level_district_bar, height=250, legend=(t["labels"]["price_level"], 0.99, 0.98))
+
+st.markdown(t["price_level_insight"].format(total_restaurants_count=total_restaurants_count))
 
 with st.expander(t["show_all"].format(total_restaurants_count=total_restaurants_count)):
     st.dataframe(

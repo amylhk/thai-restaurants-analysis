@@ -46,16 +46,17 @@ tc:
   google_remark: |
     ### ⚙️ 數據清洗
     * **異常值處理**：在整合最終分析數據集（$n={total_restaurants_count}$）前，**已剔除2個評分為 0 的無效樣本**。此類樣本通常代表該餐廳尚未累積評分，移除後可確保整體分佈更能反映市場真實口碑。
-  price_level_heading: "💰 價格等級是否構成干擾？"
-  price_level_insight: |
+  heatmap_heading: "💰 價格等級是否構成干擾？"
+  price_level_1: "各因素相關性"
+  tooltip_heatmap: |
     * **熱力圖 (Heatmap) 導讀**：
       * **相關性 (Correlation)**：數值介於 -1（完全負相關） 與 1（完全正相關） 之間。
+  heatmap_insight: |
       * **評論與食字**：**評論數量**與**是否食字**呈負相關（$R=-0.21$），即餐廳名字**越傾向食字、評論越少**。
       * **評論與價格**：**評論數量**與**價格等級**呈更強烈正相關（$R=0.55$），即**價格等級會干擾評論數量**。
-    * **價格等級分析**：
-      * **價格兩極化**：{total_restaurants_count} 間餐廳高度集中於 **平價餐廳 (Level 0)** 及 **中高價餐廳 (Level 3)** 兩端。後續分析將採取「分層策略」，**針對此兩組價格的餐廳進行獨立驗證**。
-      * **命名慣例**：食字命名的 **中高價餐廳 (Level 3)** 的佔比明顯低於標準命名，推測平價餐廳更傾向利用食字命名的親和力吸引大眾，而高價位餐廳則較常採用標準或英文命名以建立品牌嚴謹感。
-  price_level_1: "熱力圖（各因素相關性）"
+  price_level_insight: |
+    * **價格兩極化**：{total_restaurants_count} 間餐廳高度集中於**平價餐廳 (Level 0)** 及 **中高價餐廳 (Level 3)** 兩端。後續分析將採取**分層策略，針對此兩組價格的餐廳進行獨立驗證**。
+    * **命名慣例**：食字命名的 **中高價餐廳 (Level 3)** 的佔比明顯低於標準命名，推測平價餐廳更傾向利用食字命名的親和力吸引大眾，而高價位餐廳則較常採用標準或英文命名以建立品牌嚴謹感。
   price_level_2: "不同價格等級的餐廳數量"
   price_level_2_1: "🔠 按店名風格"
   price_level_2_2: "📍 按地區"
@@ -230,16 +231,17 @@ en:
   google_remark: |
     ### ⚙️ Data Cleaning
     * **Outlier Handling**: Prior to finalizing the research dataset ($n={total_restaurants_count}$), **2 invalid samples with a rating of 0 were excluded**. Such samples typically represent restaurants that have not yet accumulated sufficient ratings; removing them ensures that the overall distribution more accurately reflects genuine **market sentiment** and reputation.
-  price_level_heading: "💰 Is Price Level a Confounding Factor?"
-  price_level_insight: |
+  heatmap_heading: "💰 Is Price Level a Confounding Factor?"
+  price_level_1: "Correlation of All Factors"
+  tooltip_heatmap: |
     * **Heatmap Guide:**
       * **Correlation Validation**: Values range from -1 (perfect negative correlation) to 1 (perfect positive correlation).
-      * **Review and Pun**: Review count and pun-based names show a negative correlation ($R=-0.21$), meaning restaurants with **pun-based names tend to receive fewer comments**.
-      * **Review and Price**: Review count and price level show a stronger positive correlation ($R=0.55$), meaning **price level is a significant confounding factor of review count**.
-    * **Price Level Analysis:**
-      * **Price Polarization**: {total_restaurants_count} restaurants are highly concentrated at two extremes: **Budget Restaurants (Level 0)** and **Mid-to-High End Restaurants (Level 3)**. Subsequent analysis will adopt a "Stratified Strategy," **independently verifying these two price groups**.
-      * **Naming Conventions**: The proportion of pun-based names in **Mid-to-High End Restaurants (Level 3)** is notably lower than that of standard names. This suggests that budget restaurants lean toward the approachability of puns to connect with the general public, whereas higher-end restaurants often opt for standard or English names to convey a sense of brand authority and formality.
-  price_level_1: "Heatmap (Correlation of All Factors)"
+  heatmap_insight: |
+    * **Review and Pun**: Review count and pun-based names show a negative correlation ($R=-0.21$), meaning restaurants with **pun-based names tend to receive fewer comments**.
+    * **Review and Price**: Review count and price level show a stronger positive correlation ($R=0.55$), meaning **price level is a significant confounding factor of review count**.
+  price_level_insight: |
+    * **Price Polarization**: {total_restaurants_count} restaurants are highly concentrated at two extremes: **Budget Restaurants (Level 0)** and **Mid-to-High End Restaurants (Level 3)**. Subsequent analysis will adopt a **stratified strategy, independently verifying these two price groups**.
+    * **Naming Conventions**: The proportion of pun-based names in **Mid-to-High End Restaurants (Level 3)** is notably lower than that of standard names. This suggests that budget restaurants lean toward the approachability of puns to connect with the general public, whereas higher-end restaurants often opt for standard or English names to convey a sense of brand authority and formality.
   price_level_2: "Restaurant Count of Different Price Levels"
   price_level_2_1: "🔠 By Naming Style"
   price_level_2_2: "📍 By District"
