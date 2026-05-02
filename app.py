@@ -83,12 +83,11 @@ st.html("""
     }
 
     div[class*="st-key-popover"] div[data-testid="stPopover"] > button {
-        background-color: rgba(255, 255, 255, 0.1); /* 半透明 */
+        background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid #ccc;
         font-size: 5px;
     }
 
-    /* 滑鼠經過時變色 */
     div[class*="st-key-popover"] div[data-testid="stPopover"] > button:hover {
         background-color: rgba(255, 255, 255, 1);
         border-color: #666;
@@ -97,6 +96,16 @@ st.html("""
     div[class*="st-key-benchmark"] {
         color: gray;
     }
+    
+    div[data-testid="stAlertContainer"] {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    
+    div[data-testid="stAlertContainer"] div[data-testid="stMarkdownContainer"] {
+        margin-bottom: 0px !important;
+    }
+    
     </style>
     """)
 
@@ -570,7 +579,8 @@ st.markdown(t["price_level_breakdown_2_insight"])
 # ============================
 st.divider()
 st.header(t["price_corr_heading"])
-st.markdown(t["price_corr_insight_1"])
+
+st.markdown(t["price_corr_intro"])
 
 price_corr_1, price_corr_2 = st.tabs([t["price_strat_1"], t["price_strat_2"]])
 
@@ -659,7 +669,7 @@ with price_corr_1:
 
         fig_thai_0_review.data = fig_thai_0_review.data[1:] + fig_thai_0_review.data[:1]  # Reorder the scatter dots to the foremost layer
 
-        st.subheader(t["price_corr_1"])
+        st.subheader(t["price_corr_1"].format(rlm_model_0_rev.params['pun_ratio']))
 
         with st.popover(t["tooltip"]):
             st.subheader(t["regression_results"])
@@ -681,7 +691,8 @@ with price_corr_1:
                 """)
 
             st.markdown(t["tooltip_corr"])
-        display_chart(fig_thai_0_review, legend=(None, 0.98, 0.88))
+
+        display_chart(fig_thai_0_review, legend=(None, 0.98, 0.88), height=350)
 
 with price_corr_2:
     with st.container(key="popover6"):
@@ -768,7 +779,7 @@ with price_corr_2:
 
         fig_thai_3_review.data = fig_thai_3_review.data[1:] + fig_thai_3_review.data[:1]  # Reorder the scatter dots to the foremost layer
 
-        st.subheader(t["price_corr_2"])
+        st.subheader(t["price_corr_2"].format(rlm_model_3_rev.params['pun_ratio']))
 
         with st.popover(t["tooltip"]):
             st.subheader(t["regression_results"])
@@ -791,12 +802,23 @@ with price_corr_2:
 
             st.markdown(t["tooltip_corr"])
 
-        display_chart(fig_thai_3_review, legend=(None, 0.98, 0.3))
+        display_chart(fig_thai_3_review, legend=(None, 0.98, 0.3), height=350)
 
-st.markdown(t["price_corr_insight_2"])
+st.success(t["price_corr_conclusion"])
+
+price_corr_conclusion_1, price_corr_conclusion_2, price_corr_conclusion_3 = st.tabs([t["price_strat_1"], t["price_strat_2"], t["geographical"]])
+
+with price_corr_conclusion_1:
+    st.markdown(t["price_corr_insight_1"])
+
+with price_corr_conclusion_2:
+    st.markdown(t["price_corr_insight_2"])
+
+with price_corr_conclusion_3:
+    st.markdown(t["price_corr_insight_3"])
 
 with st.expander(t["show_price_stratification"]):
-    price_strat_1, price_strat_2 = st.tabs([t['price_strat_1'], t['price_strat_2']])
+    price_strat_1, price_strat_2= st.tabs([t['price_strat_1'], t['price_strat_2']])
 
     with price_strat_1:
         st.dataframe(thai_0_review[[cols['district_name'], 'pun_restaurants_count', 'total_restaurants_count', 'pun_ratio', 'avg_pun_reviews', 'avg_all_reviews']].rename(columns=t["labels"]))
@@ -852,10 +874,9 @@ with st.expander(t["data_methodology"]):
         fig_resid_thai_0_rev.update_layout(
             xaxis_title=t['labels']['predicted_value_xaxis'],
             yaxis_title=t['labels']['residuals_yaxis'],
-            height=500
         )
 
-        display_chart(fig_resid_thai_0_rev)
+        display_chart(fig_resid_thai_0_rev, height=500)
 
     with price_corr_remark_2:
 
@@ -901,14 +922,11 @@ with st.expander(t["data_methodology"]):
         fig_resid_thai_3_rev.update_layout(
             xaxis_title=t['labels']['predicted_value_xaxis'],
             yaxis_title=t['labels']['residuals_yaxis'],
-            height=500
         )
 
-        display_chart(fig_resid_thai_3_rev)
+        display_chart(fig_resid_thai_3_rev, height=500)
 
 st.divider()
-
-st.success(t['conclusion'])
 
 st.warning(t['reflection'].format(total_restaurants_count=total_restaurants_count))
 
