@@ -449,108 +449,106 @@ with st.expander(t["data_methodology"]):
 
 st.divider()
 st.header(t["price_level_breakdown_heading"])
-st.markdown(t["price_level_breakdown_insight"])
 
 thai_price_0 = thai_restaurants[thai_restaurants.price_level == 0]
 thai_price_3 = thai_restaurants[thai_restaurants.price_level == 3]
 
-price_breakdown_1, price_breakdown_2 = st.tabs([t["price_breakdown_1"],t["price_breakdown_2"]])
+with st.container(key="popover3"):
+    with st.popover(t["tooltip"]):
+        st.markdown(t["tooltip_boxplot"])
+    price_breakdown_1_1, price_breakdown_1_2, price_breakdown_1_3 = st.tabs([t["price_breakdown_1_1"],t["price_breakdown_1_2"], t["price_breakdown_1_3"]])
 
-with price_breakdown_1:
-    price_breakdown_1_1, price_breakdown_1_2, price_breakdown_1_3 = st.columns(3)
+with price_breakdown_1_1:
+    display_chart(fig_rating_box, key="rating_box_overall_repeat")
 
-    with price_breakdown_1_1:
-        st.subheader(t['price_breakdown_1_1'])
-        display_chart(fig_rating_box, key="rating_box_overall_repeat")
+with price_breakdown_1_2:
+    fig_price_0_rating = px.box(
+        thai_price_0,
+        x=cols['naming_style'],
+        y='rating',
+        range_y=[1.9, 5.1],
+        points='all',
+        color=cols['naming_style'],
+        color_discrete_sequence=MY_CHART_COLORS,
+        labels=t['labels'],
+        custom_data=['restaurant_name_tc', cols['district_name']]
+    )
 
-    with price_breakdown_1_2:
-        st.subheader(t['price_breakdown_1_2'])
+    fig_price_0_rating.update_traces(
+        hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
+    )
 
-        fig_price_0_rating = px.box(
-            thai_price_0,
-            x=cols['naming_style'],
-            y='rating',
-            range_y=[1.9, 5.1],
-            points='all',
-            color=cols['naming_style'],
-            color_discrete_sequence=MY_CHART_COLORS,
-            labels=t['labels'],
-            custom_data=['restaurant_name_tc', cols['district_name']]
-        )
+    display_chart(fig_price_0_rating)
 
-        fig_price_0_rating.update_traces(
-            hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
-        )
+with price_breakdown_1_3:
+    fig_price_3_rating = px.box(
+        thai_price_3,
+        x=cols['naming_style'],
+        y='rating',
+        range_y=[1.9, 5.1],
+        points='all',
+        color=cols['naming_style'],
+        color_discrete_sequence=MY_CHART_COLORS,
+        labels=t['labels'],
+        custom_data=['restaurant_name_tc', cols['district_name']]
+    )
 
-        display_chart(fig_price_0_rating)
+    fig_price_3_rating.update_traces(
+        hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
+    )
 
-    with price_breakdown_1_3:
-        st.subheader(t['price_breakdown_1_3'])
+    display_chart(fig_price_3_rating)
 
-        fig_price_3_rating = px.box(
-            thai_price_3,
-            x=cols['naming_style'],
-            y='rating',
-            range_y=[1.9, 5.1],
-            points='all',
-            color=cols['naming_style'],
-            color_discrete_sequence=MY_CHART_COLORS,
-            labels=t['labels'],
-            custom_data=['restaurant_name_tc', cols['district_name']]
-        )
+st.markdown(t["price_level_breakdown_1_insight"])
 
-        fig_price_3_rating.update_traces(
-            hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["rating"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
-        )
+with st.container(key="popover4"):
+    with st.popover(t["tooltip"]):
+        st.markdown(t["tooltip_boxplot"])
 
-        display_chart(fig_price_3_rating)
+price_breakdown_2_1, price_breakdown_2_2, price_breakdown_2_3 = st.tabs([t["price_breakdown_2_1"],t["price_breakdown_2_2"], t["price_breakdown_2_3"]])
 
-with price_breakdown_2:
-    price_breakdown_2_1, price_breakdown_2_2, price_breakdown_2_3 = st.columns(3)
+with price_breakdown_2_1:
+    display_chart(fig_review_box, key="review_box_overall_repeat")
 
-    with price_breakdown_2_1:
-        st.subheader(t["price_breakdown_2_1"])
-        display_chart(fig_review_box, key="review_box_overall_repeat")
+with price_breakdown_2_2:
+    fig_price_0_review = px.box(
+        thai_price_0,
+        x=cols['naming_style'],
+        y='review_count',
+        range_y=[-50, 1350],
+        points='all',
+        color=cols['naming_style'],
+        color_discrete_sequence=MY_CHART_COLORS,
+        labels=t['labels'],
+        custom_data=['restaurant_name_tc', cols['district_name']]
+    )
 
-    with price_breakdown_2_2:
-        st.subheader(t["price_breakdown_2_2"])
-        fig_price_0_review = px.box(
-            thai_price_0,
-            x=cols['naming_style'],
-            y='review_count',
-            range_y=[-50, 1350],
-            points='all',
-            color=cols['naming_style'],
-            color_discrete_sequence=MY_CHART_COLORS,
-            labels=t['labels'],
-            custom_data=['restaurant_name_tc', cols['district_name']]
-        )
+    fig_price_0_review.update_traces(
+        hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
+    )
 
-        fig_price_0_review.update_traces(
-            hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
-        )
+    display_chart(fig_price_0_review)
 
-        display_chart(fig_price_0_review)
+with price_breakdown_2_3:
+    fig_price_3_review = px.box(
+        thai_price_3,
+        x=cols['naming_style'],
+        y='review_count',
+        range_y=[-50, 1350],
+        points='all',
+        color=cols['naming_style'],
+        color_discrete_sequence=MY_CHART_COLORS,
+        labels=t['labels'],
+        custom_data=['restaurant_name_tc', cols['district_name']]
+    )
 
-    with price_breakdown_2_3:
-        st.subheader(t["price_breakdown_2_3"])
-        fig_price_3_review = px.box(
-            thai_price_3,
-            x=cols['naming_style'],
-            y='review_count',
-            range_y=[-50, 1350],
-            points='all',
-            color=cols['naming_style'],
-            color_discrete_sequence=MY_CHART_COLORS,
-            labels=t['labels'],
-            custom_data=['restaurant_name_tc', cols['district_name']]
-        )
+    fig_price_3_review.update_traces(
+        hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
+    )
 
-        fig_price_3_review.update_traces(
-            hovertemplate=f'<b>%{{customdata[0]}} | %{{customdata[1]}}</b><br>{t["labels"]["review_count"]}{t["labels"]["colon"]}%{{y}}<extra></extra>'
-        )
+    display_chart(fig_price_3_review)
 
-        display_chart(fig_price_3_review)
+st.markdown(t["price_level_breakdown_2_insight"])
 
 # ============================
 # ANALYSIS ACROSS DISTRICTS

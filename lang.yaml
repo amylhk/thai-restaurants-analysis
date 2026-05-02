@@ -60,26 +60,25 @@ tc:
   price_level_2: "不同價格等級的餐廳數量"
   price_level_2_1: "🔠 按店名風格"
   price_level_2_2: "📍 按地區"
-  price_level_breakdown_heading: "🪙 價格等級分層驗證"
-  price_level_breakdown_insight: |
-    * **食字表現落差持續**：儘管前述分析指出平價餐廳傾向利用食字建立親和力，但數據顯示，這種命名策略**並未轉化為實際的競爭優勢**。無論在何種價格等級，食字店名的**評分與評論數量仍普遍低於標準命名**，顯示幽默感未必能保證市場人氣。
-    * **價格與評論數量關聯持續**：對應熱力圖 (Heatmap) 結果，評論數量與價格等級呈現強烈正相關。此關聯同步反映於中高價餐廳 (Level 3) 評論數量的箱形圖 (Box Plot)：**Level 3 的評論數量高於 Level 0 及整體標準**，而Level 3內，**標準命名的評論數量亦領先**。
-    * **後續研究方向**：為排除價格等級造成的干擾，後續分析將繼續拆開平價餐廳 (Level 0) 及中高價餐廳 (Level 3)，並深入探討**不同地區的餐廳**的商業表現。
-  price_breakdown_1: "⭐ 評分分佈（按價格等級）"
-  price_breakdown_2: "💬 評論數量分佈（按價格等級）"
-  price_breakdown_1_1: "整體評分"
-  price_breakdown_1_2: "平價餐廳 (Level 0) 評分"
-  price_breakdown_1_3: "中高價餐廳 (Level 3) 評分"
-  price_breakdown_2_1: "整體評論數量"
-  price_breakdown_2_2: "平價餐廳 (Level 0) 評論數量"
-  price_breakdown_2_3: "中高價餐廳 (Level 3) 評論數量"
   price_remark: |
     ### 💰 價格等級定義
-    
+
     本研究採用 Google API 的原始價格等級 0 至 4 為基礎，並根據香港市場的消費特性進行以下歸類，以確保分析之商業意義：
     * **Level 0**：定義為**平價餐廳**（原始 API 標籤為 *Free/Unclassified*）。在香港泰菜樣本中，此類別主要涵蓋未設定高昂門檻的大眾化食肆、外賣店或小型餐廳，故在本研究中統稱為「平價餐廳」。
     * **Level 3**：定義為**中高價餐廳**（原始 API 標籤為 *Expensive*），反映了具備一定服務規模與裝潢水平的餐廳。
     * **Level 1,2,4**：因樣本分佈相對分散或極端，僅作為背景數據。
+  price_level_breakdown_heading: "🪙 價格等級分層驗證"
+  price_breakdown_1_1: "⭐ 整體評分"
+  price_breakdown_1_2: "⭐ Level 0"
+  price_breakdown_1_3: "⭐ Level 3"
+  price_level_breakdown_1_insight: |
+    * **食字表現落差持續**：儘管前述分析指出平價餐廳傾向利用食字建立親和力，但數據顯示，這種命名策略**並未轉化為實際的競爭優勢**。無論在何種價格等級，食字店名的**評分與評論數量仍普遍低於標準命名**，顯示幽默感未必能保證市場人氣。
+  price_breakdown_2_1: "💬 整體評論數量"
+  price_breakdown_2_2: "💬 Level 0"
+  price_breakdown_2_3: "💬 Level 3"
+  price_level_breakdown_2_insight: |
+    * **價格與評論數量關聯持續**：對應熱力圖 (Heatmap) 結果，評論數量與價格等級呈現強烈正相關。此關聯同步反映於中高價餐廳 (Level 3) 評論數量的箱形圖 (Box Plot)：**Level 3 的評論數量高於 Level 0 及整體標準**，而Level 3內，**標準命名的評論數量亦領先**。
+    * **後續研究方向**：為排除價格等級造成的干擾，後續分析將繼續拆開平價餐廳 (Level 0) 及中高價餐廳 (Level 3)，並深入探討**不同地區的餐廳**的商業表現。
   price_corr_heading: "🧩 數據解密：從平價到高端市場的命名生存學"
   price_corr_insight: |
     * **指標選擇與研究方法**
@@ -245,26 +244,24 @@ en:
   price_level_2: "Restaurant Count of Different Price Levels"
   price_level_2_1: "🔠 By Naming Style"
   price_level_2_2: "📍 By District"
-  price_level_breakdown_heading: "🪙 Stratified Verification of Price Levels"
-  price_level_breakdown_insight: |
-    * **Persistent Performance Shortfall in Puns**: While previous analysis suggests that budget restaurants lean toward puns to build approachability, data shows that this naming strategy **does not translate into a tangible competitive advantage**. Across all price levels, **ratings and review counts for restaurants with pun-based names remain consistently lower than those with standard names**, proving that humor does not guarantee market popularity.
-    * **Sustained Correlation between Price and Review Count**: Consistent with the heatmap findings, review counts show a strong positive correlation with price levels. This is further reflected in the Mid-to-High End (Level 3) Review Count Box Plot: **Level 3 restaurants get higher review counts than Level 0 and the overall benchmark**. Within Level 3, **restaurants with standard names continue to lead in review counts**.
-    * **Subsequent Research Direction**: To eliminate price-related interference, subsequent analysis will continue to separate Budget (Level 0) and Mid-to-High End (Level 3) restaurants, and to explore the **commercial performance across different districts**.
-  price_breakdown_1: "⭐ Rating Distribution (By Price Level)"
-  price_breakdown_2: "💬 Review Count Distribution (By Price Level)"
-  price_breakdown_1_1: "Overall Rating"
-  price_breakdown_1_2: "Budget Restaurants (Level 0) Rating"
-  price_breakdown_1_3: "Mid-to-High End Restaurants (Level 3) Rating"
-  price_breakdown_2_1: "Overall Review Count"
-  price_breakdown_2_2: "Budget Restaurants (Level 0) Review Count"
-  price_breakdown_2_3: "Mid-to-High End Restaurants (Level 3) Review Count"
   price_remark: |
     ### 💰 Price Level Definitions
-    
+
     This study utilizes the raw Google API price tiers (0-4) as a foundation, categorized by the following **operational definitions** to align with the consumption characteristics of the Hong Kong market:
     * **Level 0**: Defined as **Budget Restaurants** (Original API label: *Free/Unclassified*). In this HK Thai cuisine sample, this category primarily covers mass-market eateries, takeaways, and small neighborhood bistros.
     * **Level 3**: Defined as **Mid-to-High End Restaurants** (Original API label: *Expensive*), reflecting restaurants with a certain scale of service and premium interior standards.
     * **Levels 1, 2, 4**: Due to scattered or extreme sample distributions, these tiers serve as supplementary background data for the model.
+  price_level_breakdown_heading: "🪙 Stratified Verification of Price Levels"
+  price_breakdown_1_1: "⭐ Overall Rating"
+  price_breakdown_1_2: "⭐ Level 0"
+  price_breakdown_1_3: "⭐ Level 3"
+  price_level_breakdown_1_insight: |
+    * **Persistent Performance Shortfall in Puns**: While previous analysis suggests that budget restaurants lean toward puns to build approachability, data shows that this naming strategy **does not translate into a tangible competitive advantage**. Across all price levels, **ratings and review counts for restaurants with pun-based names remain consistently lower than those with standard names**, proving that humor does not guarantee market popularity.
+  price_breakdown_2_1: "💬 Overall Review"
+  price_breakdown_2_2: "💬 Level 0"
+  price_breakdown_2_3: "💬 Level 3"
+  price_level_breakdown_2_insight: |
+    * **Persistent Performance Shortfall in Puns**: While previous analysis suggests that budget restaurants lean toward puns to build approachability, data shows that this naming strategy **does not translate into a tangible competitive advantage**. Across all price levels, **ratings and review counts for restaurants with pun-based names remain consistently lower than those with standard names**, proving that humor does not guarantee market popularity.
   price_corr_heading: "🧩 Data Decoded: The Survival Logic of Naming—From Budget to High-End Markets"
   price_corr_insight: |
     * **Metrics & Methodology**
