@@ -268,7 +268,7 @@ en:
     * **Metrics & Methodology**
       * **Price Stratification**: To eliminate price positioning as a confounding variable, the analysis performs independent validations on **Budget (Level 0)** and **Mid-to-High End (Level 3)** segments.
       * **Focus on Review Count**: Heatmap analysis indicates that Pun-based naming has a stronger correlation with **review count** ($r = -0.21$) than with **rating** ($r = -0.04$). Consequently, this study focuses on review count to gauge a brand's attraction and virality.
-      * **Analytical Logic**: Using the "Pun-based Naming Ratio" per district as the core metric, the study observes how pun saturation impacts the average popularity (review count) of restaurants in that area.
+      * **Logic of Analysis**: Using the "Pun-based Naming Ratio" per district as the core metric, the study observes how pun saturation impacts the average popularity (review count) of restaurants in that area.
       * **Model Selection**: **RLM (Robust Linear Model)** was utilized to ensure that trend lines remain undistorted by statistical outliers.
   price_strat_1: "📉 Price Level 0"
   price_strat_2: "📈 Price Level 3"
