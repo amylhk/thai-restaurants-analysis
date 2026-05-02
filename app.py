@@ -217,7 +217,7 @@ with overview_1:
     )
 
     fig_naming_style_bar.update_layout(
-        xaxis=dict(visible=False, range=[0, total_count]),
+        xaxis=dict(title=t['labels']['overview'], showticklabels=False, range=[0, total_count]),
         yaxis=dict(visible=False),
     )
 
