@@ -114,6 +114,7 @@ def display_chart(fig, height=300, is_map=False, legend=None, key=None):
         dragmode=False,
         yaxis=dict(fixedrange=True),
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        height=height
     )
 
     if is_map:
@@ -143,7 +144,7 @@ def display_chart(fig, height=300, is_map=False, legend=None, key=None):
             )
         )
     else:
-        fig.update_layout(showlegend=False, height=height)
+        fig.update_layout(showlegend=False)
 
     st.plotly_chart(fig, config=config, width='stretch', key=key)
 
