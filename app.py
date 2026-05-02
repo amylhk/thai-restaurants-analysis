@@ -372,15 +372,10 @@ with price_level_1:
     fig_heatmap.update_traces(hoverinfo='skip', hovertemplate=None)
     fig_heatmap.update_layout(
         coloraxis_colorbar=dict(
-            orientation='h',
-            yanchor='top',
-            y=-0.1,
-            x=0.5,
+            x=0.75,
             xanchor='center',
-            xref="paper",
-            title_side='top',
-            thickness=20,
-            len=1.18
+            y=0.5,
+            yanchor='middle'
         )
     )
 
