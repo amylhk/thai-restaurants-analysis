@@ -75,8 +75,8 @@ st.html("""
     
     div[class*="st-key-popover"] div[data-testid="stPopover"] {
         position: absolute;
-        top: -20px;
-        right: -10px;
+        top: 0px;
+        right: 0px;
         z-index: 100;
         width: 100px;
         border-radius: 50px;
@@ -876,7 +876,7 @@ with st.expander(t["data_methodology"]):
             yaxis_title=t['labels']['residuals_yaxis'],
         )
 
-        display_chart(fig_resid_thai_0_rev, height=500)
+        display_chart(fig_resid_thai_0_rev)
 
     with price_corr_remark_2:
 
@@ -924,11 +924,17 @@ with st.expander(t["data_methodology"]):
             yaxis_title=t['labels']['residuals_yaxis'],
         )
 
-        display_chart(fig_resid_thai_3_rev, height=500)
+        display_chart(fig_resid_thai_3_rev)
 
-st.divider()
+st.warning(t['reflection'])
 
-st.warning(t['reflection'].format(total_restaurants_count=total_restaurants_count))
+reflection_1, reflection_2 = st.tabs([t["reflection_1"], t["reflection_2"]])
+
+with reflection_1:
+    st.markdown(t['reflection_insight_1'].format(total_restaurants_count=total_restaurants_count))
+
+with reflection_2:
+    st.markdown(t['reflection_insight_2'])
 
 st.divider()
 

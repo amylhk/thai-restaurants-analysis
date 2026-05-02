@@ -106,8 +106,8 @@ tc:
   price_corr_insight_1: |              
     * **平價餐廳：平庸陷阱**
       * 食字店名比例與評論數量呈**負向趨勢**，趨勢線顯示同一區的「食字餐廳」每增加 10% ，它們的**平均評論數量會減少 8.7 條**。
-      * 數據打破了「店名越有趣、生意越好」的迷思，食字店名可能被聯想為平庸、品牌深度不足，反成為**負面標籤**
-      * 或因**同質化嚴重**（如大量「泰XX」），令食客難以分辨，導致食字店名的餐廳人氣隨飽和度下降。
+      * 數據打破了「店名越有趣、生意越好」的迷思，食字店名可能被聯想為平庸、品牌深度不足，反成為**負面標籤**。
+      * 亦可能因**同質化嚴重**（如大量「泰XX」），令食客難以分辨，導致食字店名的餐廳人氣隨飽和度下降。
       * 在預算有限的市場，消費者可能更偏好直觀、專業的品牌呈現，過於花巧的名稱反而可能成為阻礙。
   price_corr_insight_2: |
     * **中高價餐廳：創意溢價**
@@ -132,24 +132,17 @@ tc:
     * **識別極端值的干擾**：透過計算各區實際值與預測值的差距（殘差），發現**旺角**與**油尖**具備極高的正殘差。在傳統迴歸模型中，這些極端值會產生巨大的槓桿作用，強行拉歪趨勢線，導致整體預測失真。
     * **證明 RLM 的準確性**：殘差分佈顯示 RLM 成功降低了離群點的權重，將重心放在其餘大部分行政區的真實趨勢上。這證明模型能精準捕捉店名風格與人氣的底層規律，而不被個別旺區的地理紅利所誤導。
     * **異常值的商業啟發**：殘差極高並不代表模型錯誤，反而成功抽離出模型無法解釋的外部變量。這證實了在**核心商圈**，地利優勢會蓋過品牌風格；但在**非核心區域**，食字命名的「人氣落差」趨勢則更具參考價值。
-  reflection: |
-    ## 🔄 研究反思
-
-    ### ⚠️ 現有研究局限
-    * **數據篩選邏輯的偏誤**：
-        目前的數據抓取邏輯主要依賴店名中是否包含「泰」或「Thai」等關鍵字進行初步篩選。這會導致部分實際經營泰國菜、但店名中不含相關關鍵字的餐廳被排除在外。未來需調整篩選方式，例如改以 Google 提供的 `primary_type` 標籤為主要分類依據，以獲取更全面的樣本。
-    * **樣本量與整合流失**：
-        受限於數據清洗與地址解析後的有效樣本數（目前為 **{total_restaurants_count}間**），部分區域的統計顯著性仍有待提高。數據流失主要源於 CSDI 空間數據與 Google API 之間的匹配誤差。
-    * **分店與連鎖效應的干擾**：
-        部分餐廳 (如：*泰潮*）擁有品牌歷史與連鎖資源的餐廳，其商業表現或受品牌紅利影響。目前分析難以將資源優勢與單純的「命名風格」完全隔離，導致模型在處理連鎖店數據時可能存在偏差。
-    
-    ### 🛣️ 未來研究方向
-    * **優化數據整合流程**：
-        進一步優化 **CSDI 空間數據**與 **Google Places API** 的自動化對接邏輯，減少因地址匹配失敗而產生的數據流失，從而擴大有效樣本數，提高模型的預測精準度。
-    * **深入探討區域消費特性**：
-        進一步挖掘不同區域的特色，例如研究傳統泰國菜聚落的**九龍城區**，為何未能享受**旺角及油尖區**的地理紅利；或引入各區人口年齡結構與人均收入數據，是否對「食字命名」有更高的接受度與轉化率。
-    * **導入自動化命名分類**：
-        目前店名分類主要依賴人工標籤，難以處理大規模數據。未來計劃引入**自然語言處理**技術，透過語義理解自動識別諧音雙關，甚至細分出「創意食字」、「文化符號」或「人名店名」等多重類別，實現更具文化語境的自動化分析。
+  reflection: "## 🔄 研究反思"
+  reflection_1: "⚠️ 現有研究局限"
+  reflection_2: "🛣️ 未來研究方向"
+  reflection_insight_1: |
+    * **數據篩選邏輯的偏誤**：目前的數據抓取邏輯主要依賴店名中是否包含「泰」或「Thai」等關鍵字進行初步篩選。這會導致部分實際經營泰國菜、但店名中不含相關關鍵字的餐廳被排除在外。未來需調整篩選方式，例如改以 Google 提供的 `primary_type` 標籤為主要分類依據，以獲取更全面的樣本。
+    * **樣本量與整合流失**：受限於數據清洗與地址解析後的有效樣本數（目前為 **{total_restaurants_count}間**），部分區域的統計顯著性仍有待提高。數據流失主要源於 CSDI 空間數據與 Google API 之間的匹配誤差。
+    * **分店與連鎖效應的干擾**：部分餐廳 (如：*泰潮*）擁有品牌歷史與連鎖資源的餐廳，其商業表現或受品牌紅利影響。目前分析難以將資源優勢與單純的「命名風格」完全隔離，導致模型在處理連鎖店數據時可能存在偏差。
+  reflection_insight_2: |
+    * **優化數據整合流程**：進一步優化 **CSDI 空間數據**與 **Google Places API** 的自動化對接邏輯，減少因地址匹配失敗而產生的數據流失，從而擴大有效樣本數，提高模型的預測精準度。
+    * **深入探討區域消費特性**：進一步挖掘不同區域的特色，例如研究傳統泰國菜聚落的**九龍城區**，為何未能享受**旺角及油尖區**的地理紅利；或引入各區人口年齡結構與人均收入數據，是否對「食字命名」有更高的接受度與轉化率。
+    * **導入自動化命名分類**：目前店名分類主要依賴人工標籤，難以處理大規模數據。未來計劃引入**自然語言處理**技術，透過語義理解自動識別諧音雙關，甚至細分出「創意食字」、「文化符號」或「人名店名」等多重類別，實現更具文化語境的自動化分析。
   labels:
     actual_value: "實際數值"
     address: "地址"
@@ -323,15 +316,14 @@ en:
     * **Identifying Outlier Interference**: By calculating the "Residuals" (gap between actual and predicted values), we identified that **Mong Kok** and **Yau Tsim** exhibit extremely high positive residuals. In traditional OLS regression, these outliers would exert massive "leverage," forcing the trendline toward them and distorting the overall market prediction.
     * **Proving RLM Accuracy**: The residual distribution demonstrates that RLM successfully downweighted these outliers, focusing on the true trends of the remaining districts. This proves the model's ability to capture the underlying relationship between naming style and popularity without being misled by the geographical advantage of specific hotspots.
     * **Business Insights from Deviations**: A high residual does not imply model failure; rather, it isolates external variables the model cannot explain. This confirms that in **prime commercial hubs**, location advantage outweighs branding style; however, in **non-core areas**, the "Popularity Shortfall" of pun-based naming remains a highly reliable strategic reference.
-  reflection: |
-    ## 🔄 Research Reflections
-
-    ### ⚠️ Current Limitations
+  reflection: "## 🔄 Research Reflections"
+  reflection_1: "⚠️ Current Limitations"
+  reflection_2: "🛣️ Future Roadmap"
+  reflection_insight_1: |
     * **Selection Bias in Data Retrieval**: The current data scraping logic primarily relies on keywords like "Thai" or "泰" in restaurant names. This inevitably excludes Thai restaurants that do not use these specific terms in their branding. Future iterations should utilize Google’s `primary_type` or `cuisine_category` tags as the primary filter to ensure a more comprehensive and representative sample.
     * **Sample Size and Integration Attrition**: With a post-cleaning sample size of **{total_restaurants_count} restaurants**, the statistical significance within certain districts remains limited. This data attrition is largely due to matching errors between CSDI spatial data and the Google Places API (e.g., inconsistent address formatting).
     * **Distortion from Chain and Brand Equity**: Established brands (e.g., *Thai Chiu*) benefit from significant brand equity and shared corporate resources that support their business performance. Currently, it is difficult to isolate these resource advantages from the naming style itself, which may introduce bias when the model processes data from multi-branch chains.
-
-    ### 🛣️ Future Roadmap
+  reflection_insight_2: |
     * **Optimizing Data Integration Pipeline**: Refining the automated matching logic between **CSDI spatial data** and **Google Places API** will be critical. By implementing fuzzy matching for addresses, we can reduce data loss, expand the effective sample size, and improve the predictive accuracy of the model.
     * **Deep Dive into District Consumer Demographics**: Further exploration could uncover the unique characteristics of different districts, e.g. why traditional Thai food hubs like **Kowloon City** do not enjoy the same geographical advantage as **Mong Kok or Yau Tsim**. Incorporating demographic variables, such as age structure and median income, could reveal whether specific populations have a higher cultural receptivity to pun-based naming.
     * **Implementation of Automated Taxonomy**: The current manual labeling is insufficient for large-scale datasets. Future phases will integrate **Natural Language Processing (NLP)** to automate the identification of paronomasia (puns). This will allow for a more **culturally-contextualized automated analysis** of names by categorizing them into "creative puns," "cultural symbols," or "proper nouns".
