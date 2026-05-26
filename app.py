@@ -8,14 +8,14 @@ import statsmodels.api as sm
 import yaml
 import os
 
-FINAL_DIR = 'Data/04_Final'
+FINAL_DIR = 'data/04_Final'
 MY_CHART_COLORS = ["#0068c9", "#ef553b", "#438d56"]
 
 theme = st_theme()
 is_dark = theme.get("base") == "dark" if theme else False
 shadow_color = "black" if is_dark else "white"
 
-# Read Data with Cache
+# Read data with Cache
 @st.cache_data
 def get_data():
     thai_path = os.path.join(FINAL_DIR, 'thai_restaurants_analysis_20260419.csv')
@@ -130,7 +130,7 @@ def change_lang():
 try:
     thai_restaurants = get_data()
 except Exception as e:
-    st.error(f"Unable to load data. Please check if the 'Data' folder contains the necessary files. Details:{e}")
+    st.error(f"Unable to load data. Please check if the 'data' folder contains the necessary files. Details:{e}")
     st.stop()
 
 def display_chart(fig, height=300, is_map=False, legend=None, key=None):

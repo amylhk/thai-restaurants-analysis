@@ -7,9 +7,9 @@ venv/
 env/
 .idea/
 
-# Data Files
-Data/*/
-!Data/04_Final/
+# data Files
+data/*/
+!data/04_Final/
 
 # My Backup Files
 archive/
