@@ -1,6 +1,6 @@
 ![img.png](assets/screenshot1.png)
 
-### 🔗 項目連結 (Project Link): https://thai-restuarants-analysis.streamlit.app
+### 🔗 項目連結 (Project Link): https://thai-restaurants-analysis.streamlit.app
 
 ---
 
