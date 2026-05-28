@@ -1,11 +1,10 @@
 ![img.png](assets/screenshot1.png)
 
-### 🔗 項目連結 (Project Link): https://thai-restuarants-analysis.streamlit.app
+### 🔗 項目連結 (Project Link): https://thai-restaurants-analysis.streamlit.app
 
 ---
 
-## 🇹🇭 泰好味＝泰高分？香港泰菜食字店名口碑與人氣之數據分析
-### (Pun Intended? A Data Analysis of Naming Styles on Thai Restaurant Popularity in Hong Kong)
+## 🇹🇭 泰好味＝泰高分？香港泰菜食字店名口碑與人氣之數據分析 (Pun Intended? A Data Analysis of Naming Styles on Thai Restaurant Popularity in Hong Kong)
 
 ## 📌 項目簡介 (Project Overview)
 本項目是一個數碼人文的初步實踐項目，抓取香港 200 多間泰國餐廳的命名及商業數據，探討「諧音食字」這種在地語言特徵與創意策略，如何影響餐廳的商業口碑與市場人氣。
